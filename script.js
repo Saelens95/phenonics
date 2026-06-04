@@ -1,15 +1,16 @@
 // let currentSubject = null;
 let currentMode = "home";
-let scene, camera, renderer, crystal, animationFrameId;
 let hideTimeout = null;
 let currentElement = null;
 let currentTier = null;
 
 let activeSubject = null;
 let activeGameMode = null;
+let currentGameType = null;
 let activeOverlay = null;
 let activeOverlayType = null;
 let activeGroups = new Set();
+let hideBankNumbers = false;
 
 
 // GAME MODE STATE
@@ -17,7 +18,14 @@ let gameMode = false;
 let gameElements = [];
 let placedElements = {};
 let gameFinished = false;
+let timerInterval = null;
+let timeRemaining = 60;
+let gameStarted = false;
+let currentStreak = 0;
 let modeLock = null;
+
+let patchLevel = 1;
+let patchLives = 3;
 
 let currentFlashcard = null;
 let flashcardIndex = 0;
@@ -34,6 +42,10 @@ const MODE_TO_GROUP = {
     table: "tools",
     lewis: "tools",
     elemental_fit_menu: "games",
+    ef_patch_table: "games",
+    ef_blank_table: "games",
+    ef_master_table: "games",
+    table_timed: "games",
     matchmaker: "games"
 };
 
@@ -48,7 +60,7 @@ const overlays = {
     radius: false
 };
 
-function renderPolyProgHome() {
+function renderPhenonicsHome() {
     const arena = document.getElementById('game-arena');
 
     arena.innerHTML = '';
@@ -62,11 +74,15 @@ function renderPolyProgHome() {
             <div class="phenonics-header">
                 
                 <div class="phenonics-title">
-                    phenonics.
+                    PhENONICS
+                </div>
+
+                <div class="phenonics-credit">
+                    From Saelenspace
                 </div>
                 
                 <div class="phenonics-subtitle ">
-                     the language of phenomena
+                     Learn the language of phenomena.
                 </div>
 
                 <div class="phenonics-divider"></div>
@@ -128,6 +144,7 @@ function getThemeColor() {
 
 function setMode(mode) {
     mode = String(mode).trim();
+    cleanupTimedMode();
     currentMode = mode;
 
     if (modeLock === mode) return;
@@ -194,20 +211,24 @@ function setMode(mode) {
             document.body.classList.remove("game-mode");
             document.body.classList.remove("chemistry-active");
 
-            renderPolyProgHome();
+            renderPhenonicsHome();
             return;
 
         case "journey":
+            document.body.classList.remove("game-mode");
             renderChemJourney();
             openSidebarGroupForMode("journey");
             return;
         
         case "chemistry":
+            document.body.classList.remove("game-mode");
             document.getElementById("active-subject-container").innerHTML = "";
             currentSubject = "Chemistry";
             return;
 
         case "table":
+            currentGameType = null;
+            gameElements = [];
             document.getElementById('game-arena').innerHTML = '';
             document.getElementById('game-controls').innerHTML = '';
             document.body.classList.remove("game-mode");
@@ -228,13 +249,18 @@ function setMode(mode) {
             openElementalFitMenu();
             openSidebarGroupForMode("elemental_fit_menu");
             return;
-
-        case "table_complete":
+        
+        case "ef_patch_table":
             document.body.classList.add("game-mode");
-            startGameMode();
+            startPatchMode();
             return;
 
-        case "table_master":
+        case "ef_blank_table":
+            document.body.classList.add("game-mode");
+            startBlankMode();
+            return;
+
+        case "ef_master_table":
             document.body.classList.add("game-mode");
             startMasterMode();
             return;
@@ -245,14 +271,15 @@ function setMode(mode) {
             return;
 
         case "matchmaker":
+            document.body.classList.remove("game-mode");
             renderMatchMaker();
             openSidebarGroupForMode("matchmaker");
             return;
 
         case "lewis":
+            document.body.classList.remove("game-mode");
             document.getElementById('game-arena').innerHTML = '';
             document.getElementById('game-controls').innerHTML = '';
-            document.body.classList.remove("game-mode");
             renderLewisMode();
             openSidebarGroupForMode("lewis");
             return;
@@ -1061,20 +1088,6 @@ function toggleOverlay(type) {
     refreshGrid();
 }
 
-
-function render() {
-    const container = document.getElementById("grid-mode");
-    container.innerHTML = "";
-
-    if (mode === "grid") {
-        buildPeriodicTable(container);
-    }
-
-    if (mode === "game") {
-        start(container);
-    }
-}
-
 function createElementSlot(el, targetSet = null) {
     const div = document.createElement('div');
 
@@ -1084,20 +1097,27 @@ function createElementSlot(el, targetSet = null) {
     if (isGame) {
         if (isTarget) {
             div.className = 'element';
-            div.style.opacity = '0.55';
-            div.style.background = 'rgba(255,255,255,0.99)';
-            div.style.color = '#000';
-            div.style.border = `2px solid rgba(0,0,0,0.35)`;
-            div.style.boxShadow = `
-                0 4px 10px rgba(0,0,0,0.15),
-                0 0 10px rgba(255,255,255,0.4)
-            `;
 
-            div.style.backdropFilter = 'blur(2px)';
+            if (
+                currentGameType === "patch" ||
+                currentGameType === "blank"
+            ) {
+                div.classList.add("patch-slot");
+            }
+
+            if (
+                currentGameType === "patch" ||
+                currentGameType === "blank"
+            ) {
+                div.classList.add("question-slot");
+
+                div.innerHTML = `
+                    <div class="question-mark">?</div>
+                `;
+            }
 
             div.onmouseenter = ()=> {
-                div.style.transform = "scale(1.03)";
-                div.style.boxShadow = "0 0 12px rgba(105,250,173,0.4)";
+                div.style.transform = "scale(1.5)";
             };
 
             div.onmouseleave = () => {
@@ -1111,26 +1131,78 @@ function createElementSlot(el, targetSet = null) {
                 const draggedNumber = Number(e.dataTransfer.getData("number"));
                 
                 if (draggedNumber === el.number) {
-                    div.innerHTML = `
-                        <div class="number">${el.number}</div>
-                        <div class="symbol">${el.symbol}</div>
-                        <div class="mass">${el.mass}</div>
-                    `;
+                   
+                    if (
+                        currentGameType === "patch" ||
+                        currentGameType === "blank"
+                    ) {
 
-                    div.style.opacity = '1';
+                        div.innerHTML = `
+                            <div class="symbol">${el.symbol}</div>
+                        `;
+                    } else {
+
+                        div.innerHTML = `
+                            <div class="number">${el.number}</div>
+                            <div class="symbol">${el.symbol}</div>
+                            <div class="mass">${el.mass}</div>
+                        `;
+                    }
+
+                    div.classList.remove("target-slot");
+                    div.classList.add("placed-correct");
+
                     placedElements[el.number] = true;
+                    updatePlacedCounter();
+                    currentStreak++;
+
+                    if (currentStreak === 5) {
+                        showFitStreakPopup(
+                            "Nice!",
+                            "5 in a row!"
+                        );
+                    }
+
+                    if (currentStreak === 10) {
+                        showFitStreakPopup(
+                            "Excellent!",
+                            "10 streak!"
+                        );
+                    }
+
+                    if (currentStreak === 20) {
+                        showFitStreakPopup(
+                            "Wow!",
+                            "You are UNSTOPPABLE!"
+                        );
+                    }
+
+
+                    const draggedElement = document.querySelector(
+                        `.element-bank .element[data-number="${el.number}"]`
+                    );
+
+                    if (draggedElement) {
+                        draggedElement.remove();
+                    }
 
                     if (!gameFinished && gameElements.every(el => placedElements[el.number])) {
                         gameFinished = true;
                         setTimeout(() => {
-                            alert("⚛️ You completed the challenge!");
+                            showFitCompletionPopup();
                             showRestartButton();
                         }, 200);
                     }
                 
                 } else {
-                    div.style.background = 'red';
-                    setTimeout(() => div.style.background = '', 300);
+                    currentStreak = 0;
+
+                    div.classList.add("wrong-drop");
+                    setTimeout(() => {
+                        div.classList.remove("wrong-drop");
+                    }, 300);
+
+                    loseLife();
                 }
             };
         }
@@ -1190,8 +1262,6 @@ function createElementSlot(el, targetSet = null) {
 
             hideHoloPopup();
         };
-
-        // div.onclick = () => showCrystalModal(el);
     }
 
     // Element Colors
@@ -1209,10 +1279,6 @@ function createElementSlot(el, targetSet = null) {
             div.style.opacity = "0.15";
             div.style.boxShadow = "none";
         }
-
-
-
-
     }
 
     // Electronegativity
@@ -1259,95 +1325,40 @@ function getEnergyColor(value) {
     
     }
 
-function showRestartButton() {
-    const container = document.getElementById('grid-mode');
 
-    const btn = document.createElement('button');
-    btn.className = 'control-btn mt-6';
-    btn.innerText = "Restart Game";
+function renderTableCell(el, targetSet = null) {
 
-    btn.onclick = () => {
-        resetGameMode();
-        startGameMode();
-    };
+   if (!targetSet || currentMode === "table") {
+        return createElementSlot(el);
+   }
 
-    container.appendChild(btn)
-}
+    const isTarget = targetSet.has(el.number);
 
-function buildPeriodicTable(container, targetSet = null) {
-    container.innerHTML = '';
+    if (currentGameType === "patch") {
+        if (isTarget) {
+            return createElementSlot(el, targetSet);
+        }
 
-    const mainWrapper = document.createElement('div');
-    mainWrapper.className = 'main-wrapper';
-    container.appendChild(mainWrapper);
+        const filled = createElementDiv(el, true);
 
-    const trendLayer = document.createElement("div");
-    trendLayer.className = "trend-layer";
+        filled.style.opacity = "0.81";
+        filled.style.pointerEvents = "none";
+        return filled;
+    }
 
-    mainWrapper.appendChild(trendLayer)
+    if (currentGameType === "blank") {
+        if (isTarget) {
+            return createElementSlot(el, targetSet);
+        }
 
-    const mainTable = document.createElement('div');
-    mainTable.className = 'periodic-table';
-    mainWrapper.appendChild(mainTable);
+        return createSpacer();
+    }
 
-    // Period 1
-    mainTable.appendChild(createElementSlot(elements[0], targetSet));
-    for (let i = 0; i < 16; i++) mainTable.appendChild(createSpacer());
-    mainTable.appendChild(createElementSlot(elements[1], targetSet));
+    if (currentGameType === "master") {
+        return createElementSlot(el, targetSet);
+    }
 
-    // Period 2
-    mainTable.appendChild(createElementSlot(elements[2], targetSet));
-    mainTable.appendChild(createElementSlot(elements[3], targetSet));
-    for (let i = 0; i < 10; i++) mainTable.appendChild(createSpacer());
-    for (let i = 4; i < 10; i++) mainTable.appendChild(createElementSlot(elements[i], targetSet));
-
-    // Period 3
-    mainTable.appendChild(createElementSlot(elements[10], targetSet));
-    mainTable.appendChild(createElementSlot(elements[11], targetSet));
-    for (let i = 0; i < 10; i++) mainTable.appendChild(createSpacer());
-    for (let i = 12; i < 18; i++) mainTable.appendChild(createElementSlot(elements[i], targetSet));
-
-    // Period 4
-    for (let i = 18; i < 36; i++) mainTable.appendChild(createElementSlot(elements[i], targetSet));
-
-    // Period 5
-    for (let i = 36; i < 54; i++) mainTable.appendChild(createElementSlot(elements[i], targetSet));
-
-    // Period 6
-    mainTable.appendChild(createElementSlot(elements[54], targetSet));
-    mainTable.appendChild(createElementSlot(elements[55], targetSet));
-    mainTable.appendChild(createSpacer());
-    for (let i = 71; i < 86; i++) mainTable.appendChild(createElementSlot(elements[i], targetSet));
-
-    // Period 7
-    mainTable.appendChild(createElementSlot(elements[86], targetSet));
-    mainTable.appendChild(createElementSlot(elements[87], targetSet));
-    mainTable.appendChild(createSpacer());
-    for (let i = 103; i < 118; i++) mainTable.appendChild(createElementSlot(elements[i], targetSet));
-
-    // Lanthanides row (57-71) - full size
-    const lanHeader = document.createElement('div');
-    lanHeader.className = 'fblock-label';
-    lanHeader.textContent = '57 — 71   LANTHANIDES';
-    mainWrapper.appendChild(lanHeader);
-
-    const lanRow = document.createElement('div');
-    lanRow.className = 'fblock-row';
-    for (let i = 56; i <= 70; i++) lanRow.appendChild(createElementSlot(elements[i], targetSet));
-    mainWrapper.appendChild(lanRow);
-
-    // Actinides row (89-103) - full size, Ac and Th included
-    const actHeader = document.createElement('div');
-    actHeader.className = 'fblock-label';
-    actHeader.textContent = '89 — 103   ACTINIDES';
-    mainWrapper.appendChild(actHeader);
-
-    const actRow = document.createElement('div');
-    actRow.className = 'fblock-row';
-    for (let i = 88; i <= 102; i++) actRow.appendChild(createElementSlot(elements[i], targetSet));
-    mainWrapper.appendChild(actRow);
-
-    renderTrendLines(trendLayer);
+    return createSpacer();
 }
 
 function renderTrendLines(container) {
@@ -1379,197 +1390,24 @@ function renderTrendLines(container) {
     }
 }
 
-function openElementalFitMenu() {
-    const arena = document.getElementById("game-arena");
-    const controls = document.getElementById("game-controls");
 
-    arena.innerHTML = "";
-    controls.innerHTML = "";
-
-    const container = document.createElement("div");
-    container.className = "mode-select-container";
-
-    container.innerHTML = `
-    <div class="elemental-fit-layout">
-
-        <div class="home-container">
-
-            <div class="ui-section elemental-fit-section">
-                
-                <div class="section-title start-challenge-title">
-                    Elemental Fit
-                </div>
-
-                <div class="section-title start-challenge-subtitle">
-                    Choose your challenge.
-                </div>
-
-                <div class="phenonics-divider ef-divider"></div>
-
-
-                <div class="home-card-container">
-
-                    <div class="home-card" id="complete-mode">
-                        <div class="home-icon">🧩</div>
-                        <div class="home-label">Fill in the Table</div>
-                    </div>
-
-                    <div class="home-card" id="master-mode">
-                        <div class="home-icon">🧠</div>
-                        <div class="home-label">Master the Table</div>
-                    </div>
-
-                    <div class="home-card" id="timed-mode">
-                        <div class="home-icon">⏱️</div>
-                        <div class="home-label">Timed Trial</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    `;
-
-        arena.appendChild(container);
-
-        document.getElementById("complete-mode").onclick = () => {
-            setMode("table_complete")
-        }
-
-        document.getElementById("master-mode").onclick = () => {
-            setMode("table_master");
-        }
-
-        document.getElementById("timed-mode").onclick = () => {
-            setMode("table_timed");
-        }
-}
-
-function startGameMode() {
-    gameMode = true;
-    placedElements = {};
-    gameFinished = false;
-
-    // pick 15 random elements
-    gameElements = [...elements]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 15);
-
-    const arena = document.getElementById('game-arena');
-    const controls = document.getElementById('game-controls');
-
-    arena.innerHTML = '';
-    controls.innerHTML = '';
-
-    const targetSet = new Set(gameElements.map(e => e.number));
-
-    const gameLayout = document.createElement("div");
-    gameLayout.className = "game-layout";
-
-    arena.appendChild(gameLayout);
-
-    buildPeriodicTable(gameLayout, targetSet);
-    renderElementBank(gameLayout);
-    renderShuffleAndClearButtons(gameLayout);
-
-    document.body.classList.add("game-mode");
-}
-
-
-function renderElementBank(container) {
-    const bank = document.createElement('div');
-    bank.className = 'element-bank flex flex-wrap justify-center gap-3';
-
-    gameElements.forEach(el => {
-        const div = document.createElement('div');
-        div.className = 'element';
-        div.draggable = true;
-
-        div.innerHTML = `
-        <div class="number">${el.number}</div>
-        <div class="symbol">${el.symbol}</div>
-        `;
-
-        div.ondragstart = (e) => {
-            e.dataTransfer.setData("number", el.number);
-        };
-
-        bank.appendChild(div);
-    });
-
-    container.appendChild(bank);
-}
-
-function clearBoard() {
-    placedElements = {};
-    gameFinished = false;
-
-    const arena = document.getElementById('game-arena');
-    const controls = document.getElementById('game-controls');
-    arena.innerHTML = '';
-    controls.innerHTML = '';
-
-    const targetSet = new Set (gameElements.map(e => e.number));
-
-    buildPeriodicTable(arena, targetSet);
-    renderElementBank(arena);
-}
-
-function renderShuffleAndClearButtons(container) {
-    container.innerHTML = '';
-
-    const controls = document.createElement('div');
-    controls.className = 'game-controls flex justify-center';
-
-    const shuffleBtn = document.createElement('button');
-    shuffleBtn.classList.add('control-btn');
-    shuffleBtn.innerText = "Shuffle";
-    shuffleBtn.onclick = shuffleGameElements;
-
-    const clearBtn = document.createElement('button');
-    clearBtn.classList.add('control-btn');
-    clearBtn.innerText = "Clear";
-    clearBtn.onclick = clearBoard;
-
-    controls.appendChild(shuffleBtn);
-    controls.appendChild(clearBtn);
-
-    container.appendChild(controls);
-}
-
-function shuffleGameElements() {
-    if (Object.keys(placedElements).length > 0) {
-        alert("Must clear first.");
-        return;
-    }
-
-    gameElements = [...elements]
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 15);
-
-    for (let i = gameElements.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [gameElements[i], gameElements[j]] = [gameElements[j], gameElements[i]];
-    }
-
-    placedElements = {};
-    gameFinished = false;
-
-    const targetSet = new Set(gameElements.map(e => e.number));
-    const arena = document.getElementById('game-arena');
-    arena.innerHTML = '';
-
-    buildPeriodicTable(arena, targetSet);
-    renderElementBank(arena);
-    renderShuffleAndClearButtons(document.getElementById('game-controls'));
-}
-
-function createElementDiv(el) {
+function createElementDiv(el, hideNumber = false) {
     const div = document.createElement('div');
     div.className = 'element';
     div.innerHTML = `
-        <div class="number">${el.number}</div>
+        ${
+            !hideNumber
+            ? `<div class="number">${el.number}</div>`
+            : ""
+        }
+
         <div class="symbol">${el.symbol}</div>
-        <div class="mass">${el.mass}</div>
+
+        ${
+            !hideNumber
+            ? `<div class="mass">${el.mass}</div>`
+            : ""
+        }
     `;
 
     const originalColor = "#69FAAD";
@@ -1753,17 +1591,23 @@ function refreshGrid() {
 
     container.innerHTML = '';
 
-    switch (currentMode) {
-        case "practice":
-            const targetSet = new Set(gameElements.map(e => e.number));
-            buildPeriodicTable(container, targetSet);
-            renderElementBank(container);
-            renderShuffleAndClearButtons(document.getElementById('game-controls'));
-            break;
-
-        default: buildPeriodicTable(container);
+    if (currentMode === "table") {
+        const targetSet = new Set(gameElements.map(e => e.number));
+        buildPeriodicTable(container, targetSet);
+        return;
     }
+
+    // switch (currentMode) {
+    //     case "practice":
+    //         const targetSet = new Set(gameElements.map(e => e.number));
+    //         buildPeriodicTable(container, targetSet);
+    //         renderElementBank(container);
+    //         renderShuffleAndClearButtons(document.getElementById('game-controls'));
+    //         break;
+
+    //     default: buildPeriodicTable(container);
 }
+
 
 function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
@@ -2089,7 +1933,7 @@ window.onload =  function () {
         }
     });
 
-    renderPolyProgHome();
+    renderPhenonicsHome();
 };
 
 

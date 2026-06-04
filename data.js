@@ -307,6 +307,128 @@ elements.forEach (el => {
     }
 });
 
+function buildPeriodicTable(container, targetSet = null, showContext = false, showTargets = true) {
+    
+    container.innerHTML = '';
+
+    const mainWrapper = document.createElement('div');
+    mainWrapper.className = 'main-wrapper';
+
+    container.appendChild(mainWrapper);
+
+    const trendLayer = document.createElement("div");
+    trendLayer.className = "trend-layer";
+
+    mainWrapper.appendChild(trendLayer)
+
+    const mainTable = document.createElement('div');
+    mainTable.className = 'periodic-table';
+    mainWrapper.appendChild(mainTable);
+
+    const isGameMode = [
+        "ef_patch_table",
+        "ef_blank_table",
+        "ef_master_table",
+        "table_timed"
+    ].includes(currentMode);
+
+
+    if (isGameMode) {
+        const hud = document.createElement("div");
+        hud.className = "game-hud";
+
+        const center = document.createElement("div");
+        center.className = "hud-center";
+
+        const right = document.createElement("div");
+        right.className = "hud-right";
+
+        const totalElements =
+        currentGameType === "master"
+            ? 118
+            : 12;
+
+        center.appendChild(createScorePanel(totalElements));
+        hud.appendChild(center);
+
+        if (currentMode === "table_timed") {
+            right.appendChild(createTimerPanel());
+        }
+
+        if (
+            currentGameType === "patch" ||
+            currentGameType === "blank"
+        ) {
+            right.appendChild(createLivesPanel());
+        }
+
+        if (right.childNodes.length > 0) {
+            hud.appendChild(right);
+        }
+
+        mainTable.appendChild(hud);
+    }
+
+    // Period 1
+    mainTable.appendChild(renderTableCell(elements[0], targetSet, showContext, showTargets));
+    for (let i = 0; i < 16; i++) mainTable.appendChild(createSpacer());
+    mainTable.appendChild(renderTableCell(elements[1], targetSet, showContext, showTargets));
+
+    // Period 2
+    mainTable.appendChild(renderTableCell(elements[2], targetSet, showContext, showTargets));
+    mainTable.appendChild(renderTableCell(elements[3], targetSet, showContext, showTargets));
+    for (let i = 0; i < 10; i++) mainTable.appendChild(createSpacer());
+    for (let i = 4; i < 10; i++) mainTable.appendChild(renderTableCell(elements[i], targetSet, showContext, showTargets));
+
+    // Period 3
+    mainTable.appendChild(renderTableCell(elements[10], targetSet, showContext, showTargets));
+    mainTable.appendChild(renderTableCell(elements[11], targetSet, showContext, showTargets));
+    for (let i = 0; i < 10; i++) mainTable.appendChild(createSpacer());
+    for (let i = 12; i < 18; i++) mainTable.appendChild(renderTableCell(elements[i], targetSet, showContext, showTargets));
+
+    // Period 4
+    for (let i = 18; i < 36; i++) mainTable.appendChild(renderTableCell(elements[i], targetSet, showContext, showTargets));
+
+    // Period 5
+    for (let i = 36; i < 54; i++) mainTable.appendChild(renderTableCell(elements[i], targetSet, showContext, showTargets));
+
+    // Period 6
+    mainTable.appendChild(renderTableCell(elements[54], targetSet, showContext, showTargets));
+    mainTable.appendChild(renderTableCell(elements[55], targetSet, showContext, showTargets));
+    mainTable.appendChild(createSpacer());
+    for (let i = 71; i < 86; i++) mainTable.appendChild(renderTableCell(elements[i], targetSet, showContext, showTargets));
+
+    // Period 7
+    mainTable.appendChild(renderTableCell(elements[86], targetSet, showContext, showTargets));
+    mainTable.appendChild(renderTableCell(elements[87], targetSet, showContext, showTargets));
+    mainTable.appendChild(createSpacer());
+    for (let i = 103; i < 118; i++) mainTable.appendChild(renderTableCell(elements[i], targetSet, showContext, showTargets));
+
+    // Lanthanides row (57-71) - full size
+    const lanHeader = document.createElement('div');
+    lanHeader.className = 'fblock-label';
+    lanHeader.textContent = '57 — 71   LANTHANIDES';
+    mainWrapper.appendChild(lanHeader);
+
+    const lanRow = document.createElement('div');
+    lanRow.className = 'fblock-row';
+    for (let i = 56; i <= 70; i++) lanRow.appendChild(renderTableCell(elements[i], targetSet, showContext, showTargets));
+    mainWrapper.appendChild(lanRow);
+
+    // Actinides row (89-103) - full size, Ac and Th included
+    const actHeader = document.createElement('div');
+    actHeader.className = 'fblock-label';
+    actHeader.textContent = '89 — 103   ACTINIDES';
+    mainWrapper.appendChild(actHeader);
+
+    const actRow = document.createElement('div');
+    actRow.className = 'fblock-row';
+    for (let i = 88; i <= 102; i++) actRow.appendChild(renderTableCell(elements[i], targetSet, showContext, showTargets));
+    mainWrapper.appendChild(actRow);
+
+    renderTrendLines(trendLayer);
+}
+
 const ELECTRONEGATIVITY = {
 1:2.20,2:null,3:0.98,4:1.57,5:2.04,6:2.55,7:3.04,8:3.44,9:3.98,10:null,
 11:0.93,12:1.31,13:1.61,14:1.90,15:2.19,16:2.58,17:3.16,18:null,
@@ -571,6 +693,17 @@ const CHEM_QUESTIONS = {
             ]
         },
 
+        {
+            question: "Who proposed that all matter is made of tiny building blocks called atoms?",
+            correct: "John Dalton",
+            answers: [
+                "John Dalton",
+                "Albert Einstein",
+                "Isaac Newton",
+                "Marie Curie"
+            ]
+        },
+
     //     {
     //         question: "What is the center of an atom called?",
     //         correct: "Nucleus",
@@ -742,7 +875,7 @@ const CHEM_QUESTIONS = {
 
         {
             question: "What shape is a molecule?",
-            correct: "Molecules have many shapes and sizes",
+            correct: "They have many shapes and sizes",
             answers: [
                 "Molecules have no shape",
                 "Molecules look like squares",
@@ -763,14 +896,28 @@ const CHEM_QUESTIONS = {
         },
 
         {
-            question: "Who proposed that all matter is made of tiny building blocks called atoms?",
-            correct: "John Dalton",
+            question: "What element do we need to breathe?",
+            correct: "Oxygen",
             answers: [
-                "John Dalton",
-                "Albert Einstein",
-                "Isaac Newton",
-                "Marie Curie"
+                "Oxygen",
+                "Nitrogen",
+                "Hydrogen",
+                "Iron"
             ]
         },
+
+        {
+            question: "Which form of oxygen is safe and used to breathe?",
+            correct: "O2",
+            answers: [
+                "O",
+                "O2",
+                "O3",
+                "CO2"
+            ]
+        },
+
+       
+
     ]
 };

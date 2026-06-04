@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>phenonics</title>
+    <title>PhENONICS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Exo+2:wght@400;600;800&display=swap" rel="stylesheet">    
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="phenonics_home.css"
 </head>
 <body>
     <div class="cosmic-bg"></div>
 
 
-    <div id="phenonics-title">ph.</div>
+    <div id="phenonics-title">PhEN.</div>
 
     <div class="app">
 
@@ -52,7 +53,7 @@
 
             <div class="sidebar-group" data-group="journey">
 
-                <div class="sidebar-title nav-title">
+                <div class="sidebar-title nav-title" data-mode="journey">
                     Journey
                 </div>
             </div>
@@ -148,7 +149,12 @@
             <div id="modal-notes" class="mt-10 text-slate-200 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 text-base leading-relaxed"></div>            </div>
         </div>
     </div>
+
+    <div class="phenonics-footer">
+        PhENONICS © 2026
+    </div>
     <script src="data.js"></script>
    <script src="script.js"></script>
+   <script src="elemental_fit.js"></script>
 </body>
 </html>
