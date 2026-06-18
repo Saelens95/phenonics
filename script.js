@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 // let currentSubject = null;
+=======
+let selectedElementNumber = null;
+let isEditing = false;
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 let currentMode = "home";
 let hideTimeout = null;
 let currentElement = null;
@@ -19,13 +24,24 @@ let gameElements = [];
 let placedElements = {};
 let gameFinished = false;
 let timerInterval = null;
+<<<<<<< HEAD
 let timeRemaining = 60;
+=======
+let timeRemaining = 180;
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 let gameStarted = false;
 let currentStreak = 0;
 let modeLock = null;
 
+<<<<<<< HEAD
 let patchLevel = 1;
 let patchLives = 3;
+=======
+let currentLives = 3;
+let currentLevel = 1;
+let currentLevelSize = 0;
+let timedBonuses = {};
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 
 let currentFlashcard = null;
 let flashcardIndex = 0;
@@ -76,10 +92,13 @@ function renderPhenonicsHome() {
                 <div class="phenonics-title">
                     PhENONICS
                 </div>
+<<<<<<< HEAD
 
                 <div class="phenonics-credit">
                     From Saelenspace
                 </div>
+=======
+>>>>>>> Init Commit -- moved all files in to PhEN folder
                 
                 <div class="phenonics-subtitle ">
                      Learn the language of phenomena.
@@ -160,6 +179,7 @@ function setMode(mode) {
         el.classList.remove("active");
     });
 
+<<<<<<< HEAD
     if (mode === "chemistry") {
         activeSubject = "Chemistry";
 
@@ -175,6 +195,9 @@ function setMode(mode) {
 
         document.getElementById("active-subject-container").innerHTML = "";
     }
+=======
+   
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 
     if (mode !== "table") {
         Object.keys(overlays).forEach(k => overlays[k] = false);
@@ -214,6 +237,19 @@ function setMode(mode) {
             renderPhenonicsHome();
             return;
 
+<<<<<<< HEAD
+=======
+        case "tools_menu":
+            document.body.classList.remove("game-mode");
+            renderToolsMenu(currentSubject);
+            return;
+
+        case "games_menu":
+            document.body.classList.remove("game-mode");
+            renderGamesMenu();
+            return;
+
+>>>>>>> Init Commit -- moved all files in to PhEN folder
         case "journey":
             document.body.classList.remove("game-mode");
             renderChemJourney();
@@ -224,6 +260,16 @@ function setMode(mode) {
             document.body.classList.remove("game-mode");
             document.getElementById("active-subject-container").innerHTML = "";
             currentSubject = "Chemistry";
+<<<<<<< HEAD
+=======
+            activeSubject = "Chemistry";
+            document.body.classList.add("chemistry-active");
+            document.body.classList.add("subject-active");
+            updateSidebarSubject("Chemistry");
+            renderChemistrySidebar();
+            renderChemistryMenu();
+            
+>>>>>>> Init Commit -- moved all files in to PhEN folder
             return;
 
         case "table":
@@ -275,6 +321,7 @@ function setMode(mode) {
             renderMatchMaker();
             openSidebarGroupForMode("matchmaker");
             return;
+<<<<<<< HEAD
 
         case "lewis":
             document.body.classList.remove("game-mode");
@@ -283,6 +330,8 @@ function setMode(mode) {
             renderLewisMode();
             openSidebarGroupForMode("lewis");
             return;
+=======
+>>>>>>> Init Commit -- moved all files in to PhEN folder
             
         default:
             console.warn("Unknown mode", mode);
@@ -497,6 +546,7 @@ function renderChemistryMenu() {
     arena.innerHTML = '';
 
     const container = document.createElement('div');
+<<<<<<< HEAD
     container.className = 'home-container';
 
     container.innerHTML = `
@@ -552,16 +602,83 @@ function renderChemistryMenu() {
             </div>
         </div>
     
+=======
+    container.className = "home-container";
+
+    container.innerHTML = `
+        <div class="subject-hub">
+
+            <div class="section-title subject-header">${currentSubject}</div>
+
+            <div class="phenonics-divider subject-divider"></div>
+
+            <div class="subject-panel">
+
+                <div class="subject-hub-row">
+
+                    <div class="subject-node" id="journey-node">
+                        <div class="subject-circle">🧠</div>
+
+                        <div class="subject-label">
+                            Journey
+                        </div>
+
+                        <div class="phenonics-divider category-divider"></div>
+
+
+                        <div class="subject-description">
+                            Learn the language of chemistry!
+                        </div>
+                    </div>
+
+                    <div class="subject-node" id="tools-node">
+                        <div class="subject-circle">⚛️</div>
+
+                        <div class="subject-label">
+                            Tools
+                        </div>
+
+                        <div class="phenonics-divider category-divider"></div>
+
+
+                        <div class="subject-description">
+                            Explore interactive tools such as the Periodic Table!
+                        </div>
+                    </div>
+
+                    <div class="subject-node" id="games-node">
+                        <div class="subject-circle">🎮</div>
+
+                        <div class="subject-label">
+                            Games
+                        </div>
+
+                        <div class="phenonics-divider category-divider"></div>
+
+
+                        <div class="subject-description">
+                            Games that help build your knowledge of chemistry!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+>>>>>>> Init Commit -- moved all files in to PhEN folder
     `;
 
     arena.appendChild(container);
 
     // JOURNEY
+<<<<<<< HEAD
     document.getElementById("chem-journey-card").onclick = () => {
+=======
+    document.getElementById("journey-node").onclick = () => {
+>>>>>>> Init Commit -- moved all files in to PhEN folder
         setMode("journey");
     };
 
     // TOOLS
+<<<<<<< HEAD
     document.getElementById("pt-card").onclick = () => {
         setMode("table");
     };
@@ -571,6 +688,128 @@ function renderChemistryMenu() {
     };
 
     // GAMES
+=======
+    document.getElementById("tools-node").onclick = () => {
+        setMode("tools_menu");
+    };
+
+    // GAMES
+    document.getElementById("games-node").onclick = () => {
+        setMode("games_menu");
+    };
+
+}
+
+function renderToolsMenu() {
+
+    const arena = document.getElementById("game-arena");
+
+    arena.innerHTML = "";
+
+    const container = document.createElement("div");
+
+    container.className = "home-container";
+
+    container.innerHTML = `
+        <div class="subject-hub">
+
+            <div class="section-title subject-header">
+               ${currentSubject} Tools
+            </div>
+
+            <div class="phenonics-divider subject-divider"></div>
+
+            <div class="subject-panel">
+
+                <div class="subject-hub-row">
+
+                    <div class="subject-node" id="pt-card">
+
+                        <div class="subject-circle">⚛️</div>
+
+                        <div class="subject-label tools-label">
+                            Periodic Table of Elements
+                        </div>
+
+                        <div class="phenonics-divider category-divider"></div>
+
+                        <div class="subject-description">
+                            Explore the elements and their properties!
+                        </div>
+                    </div>
+                </dov>
+            </div>
+        </div>
+    `;
+
+
+    arena.appendChild(container);
+
+    document.getElementById("pt-card")
+        .onclick = () => {
+            setMode("table");
+        };
+}
+
+function renderGamesMenu() {
+
+    const arena = document.getElementById("game-arena");
+
+    arena.innerHTML = "";
+
+    const container = document.createElement("div");
+
+    container.className = "home-container";
+
+    container.innerHTML = `
+        <div class="subject-hub">
+
+            <div class="section-title subject-header">
+                ${currentSubject} Games
+            </div>
+
+            <div class="phenonics-divider subject-divider"></div>
+
+            <div class="subject-hub-row">
+
+                <div class="subject-panel">
+
+                    <div class="subject-node" id="table_chal_card">
+                        <div class="subject-circle">⚛️</div>
+                        <div class="subject-label game-label">
+                            Elemental Fit
+                        </div>
+
+                        <div class="phenonics-divider category-divider"></div>
+
+                        <div class="subject-description">
+                            Fix and master the periodic table!
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="subject-panel">
+
+                    <div class="subject-node" id="matchmaker-card">
+                        <div class="subject-circle">🃏</div>
+                        <div class="subject-label game-label">
+                            MatchMaker
+                        </div>
+
+                        <div class="phenonics-divider category-divider"></div>
+
+                        <div class="subject-description">
+                            Match chemistry concepts. Strengthen recall.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    arena.appendChild(container);
+
+>>>>>>> Init Commit -- moved all files in to PhEN folder
     document.getElementById("table_chal_card").onclick = () => {
         setMode("elemental_fit_menu");
     };
@@ -578,9 +817,17 @@ function renderChemistryMenu() {
     document.getElementById("matchmaker-card").onclick = () => {
         setMode("matchmaker");
     };
+<<<<<<< HEAD
 
 }
 
+=======
+}
+
+
+
+
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 function renderChemistrySidebar() {
     const sidebar = document.getElementById("sidebar");
 
@@ -1098,6 +1345,32 @@ function createElementSlot(el, targetSet = null) {
         if (isTarget) {
             div.className = 'element';
 
+<<<<<<< HEAD
+=======
+            const bonus = timedBonuses?.[el.number];
+            const hasBonus = currentMode === "table_timed" && bonus;
+
+            console.log(
+                el.symbol,
+                bonus,
+                hasBonus
+            );
+
+            if (hasBonus) {
+
+                console.log(
+                    "ADDING BONUS CLASS:",
+                    el.symbol,
+                    bonus
+                );
+
+                div.classList.add("timed-bonus");
+
+                if (bonus === 5) div.classList.add("bonus-purple");
+                if (bonus === 7) div.classList.add("bonus-gold");
+            }
+
+>>>>>>> Init Commit -- moved all files in to PhEN folder
             if (
                 currentGameType === "patch" ||
                 currentGameType === "blank"
@@ -1107,12 +1380,24 @@ function createElementSlot(el, targetSet = null) {
 
             if (
                 currentGameType === "patch" ||
+<<<<<<< HEAD
                 currentGameType === "blank"
             ) {
                 div.classList.add("question-slot");
 
                 div.innerHTML = `
                     <div class="question-mark">?</div>
+=======
+                currentGameType === "blank" ||
+                currentMode === "table_timed"
+            ) {
+                div.classList.add("question-slot");
+                div.dataset.typable = "true";
+
+                div.innerHTML = `
+                    <div class="question-mark">?</div>
+                    <input class="symbol-input hidden" maxlength="2" />
+>>>>>>> Init Commit -- moved all files in to PhEN folder
                 `;
             }
 
@@ -1124,6 +1409,7 @@ function createElementSlot(el, targetSet = null) {
                 div.style.transform = "scale(1)";
             };
 
+<<<<<<< HEAD
             div.ondragover = (e) => e.preventDefault();
 
             div.ondrop = (e) => {
@@ -1185,24 +1471,111 @@ function createElementSlot(el, targetSet = null) {
                     if (draggedElement) {
                         draggedElement.remove();
                     }
+=======
+            div.onclick = () => {
+
+                if (div.classList.contains("typing")) return;
+
+                const isTypable = div.dataset.typable === "true";
+                const input = div.querySelector(".symbol-input");
+
+                if (isTypable && input) {
+
+                    div.classList.add("typing");
+                    div.querySelector(".question-mark").style.display = "none";
+                    input.classList.remove("hidden");
+                    input.focus();
+
+                    input.onkeydown = (e) => {
+                        if (e.key === "Enter") {
+                            input.blur();
+                        }
+                    };
+
+                    input.onblur = () => {
+                        const typed = input.value.trim();
+
+                        if (typed === "") {
+                            resetTypingSlot(div);
+                            return;
+                        }
+
+                        if (typed.toLowerCase() === el.symbol.toLowerCase()) {
+                            handleCorrectPlacement(div, el);
+                            checkLevelCompletion();
+
+
+
+                        } else {
+                            currentStreak = 0;
+                            loseLife();
+                            div.classList.add("wrong-drop");
+
+                            input.value = "";
+
+                            setTimeout(() => {
+                                div.classList.remove("wrong-drop");
+                                input.focus();
+                            }, 300);
+
+                        }
+                    };
+                    
+                }
+
+                if (selectedElementNumber == null) {
+                    return;
+                }
+
+                const chosenNumber = selectedElementNumber;
+                
+                if (chosenNumber === el.number) {
+                    handleCorrectPlacement(div, el);
+                    checkLevelCompletion();
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 
                     if (!gameFinished && gameElements.every(el => placedElements[el.number])) {
                         gameFinished = true;
                         setTimeout(() => {
                             showFitCompletionPopup();
+<<<<<<< HEAD
                             showRestartButton();
+=======
+
+                            setTimeout(() => {
+                                currentLevel++;
+
+                                if (
+                                    currentLevel % 5 === 0 &&
+                                    currentLives < 5
+                                ) {
+                                    currentLives++;
+                                }
+
+                                startPatchLevel();
+                            }, 1500);
+
+>>>>>>> Init Commit -- moved all files in to PhEN folder
                         }, 200);
                     }
                 
                 } else {
                     currentStreak = 0;
+<<<<<<< HEAD
+=======
+                    loseLife();
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 
                     div.classList.add("wrong-drop");
                     setTimeout(() => {
                         div.classList.remove("wrong-drop");
                     }, 300);
 
+<<<<<<< HEAD
                     loseLife();
+=======
+                    
+>>>>>>> Init Commit -- moved all files in to PhEN folder
                 }
             };
         }
@@ -1266,6 +1639,7 @@ function createElementSlot(el, targetSet = null) {
 
     // Element Colors
     if (overlays.colorGrid && !overlays.radius) {
+<<<<<<< HEAD
         const groupColor = GROUP_COLORS[el.group] || originalColor;
         const showAll = activeGroups.size === 0;
         const isActive = activeGroups.has(el.group);
@@ -1278,6 +1652,26 @@ function createElementSlot(el, targetSet = null) {
 
             div.style.opacity = "0.15";
             div.style.boxShadow = "none";
+=======
+
+        if (
+            !(currentMode === "table_timed" && timedBonuses?.[el.number]) 
+        ) {
+        
+            const groupColor = GROUP_COLORS[el.group] || originalColor;
+            const showAll = activeGroups.size === 0;
+            const isActive = activeGroups.has(el.group);
+
+            if (showAll || isActive) {
+                div.style.borderColor = groupColor;
+                div.style.boxShadow = `0 0 20px ${groupColor}`;
+                div.style.opacity = "1";
+            } else {
+
+                div.style.opacity = "0.15";
+                div.style.boxShadow = "none";
+            }
+>>>>>>> Init Commit -- moved all files in to PhEN folder
         }
     }
 
@@ -1596,6 +1990,7 @@ function refreshGrid() {
         buildPeriodicTable(container, targetSet);
         return;
     }
+<<<<<<< HEAD
 
     // switch (currentMode) {
     //     case "practice":
@@ -1606,6 +2001,8 @@ function refreshGrid() {
     //         break;
 
     //     default: buildPeriodicTable(container);
+=======
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 }
 
 
@@ -1678,6 +2075,7 @@ function hideHoloPopup() {
     }, 0);
 }
 
+<<<<<<< HEAD
 function renderLewisMode() {
     const arena = document.getElementById('game-arena');
 
@@ -1914,6 +2312,9 @@ function setupLewisSearch() {
 // }
 
 
+=======
+// ------------------------------------------------------------------------
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 window.onload =  function () {
 
 
@@ -1934,6 +2335,10 @@ window.onload =  function () {
     });
 
     renderPhenonicsHome();
+<<<<<<< HEAD
 };
 
 
+=======
+};
+>>>>>>> Init Commit -- moved all files in to PhEN folder

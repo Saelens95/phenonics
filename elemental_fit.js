@@ -33,11 +33,14 @@ function openElementalFitMenu() {
                         <div class="home-label">Patch the Table</div>
                     </div>
 
+<<<<<<< HEAD
                     <div class="home-card" id="master-mode">
                         <div class="home-icon">🧠</div>
                         <div class="home-label">Master the Table</div>
                     </div>
 
+=======
+>>>>>>> Init Commit -- moved all files in to PhEN folder
                     <div class="home-card" id="timed-mode">
                         <div class="home-icon">⏱️</div>
                         <div class="home-label">Timed Trial</div>
@@ -97,10 +100,17 @@ function startGameMode(showContext = false) {
         currentGameType === "patch" ||
         currentGameType === "blank";
 
+<<<<<<< HEAD
     // pick random elements
     gameElements = [...elements]
     .sort(() => Math.random() - 0.5)
     .slice(0, 12);
+=======
+    const pool = getLevelPool();
+    gameElements = [...pool]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, getLevelSize());
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 
     const arena = document.getElementById('game-arena');
     const controls = document.getElementById('game-controls');
@@ -140,11 +150,19 @@ function openPatchModeMenu() {
                 <div class="ui-section elemental-fit-section">
                 
                     <div class="section-title start-challenege-title">
+<<<<<<< HEAD
                         Patch the Table
                     </div>
                     
                     <div class="section-title start-challenge-subtitle">
                         How well do you know your elemenets?
+=======
+                        Patch the Table!
+                    </div>
+                    
+                    <div class="section-title start-challenge-subtitle">
+                        Learn the elements level by level.
+>>>>>>> Init Commit -- moved all files in to PhEN folder
                     </div>
                     
                     <div class="phenonics-divider ef-divider"></div>
@@ -153,12 +171,20 @@ function openPatchModeMenu() {
                     
                         <div class="home-card" id="show-grid-mode">
                             <div class="home-icon">🔲</div>
+<<<<<<< HEAD
                             <div class="home-label">Show Grid</div>
+=======
+                            <div class="home-label">Gimme the Grid!</div>
+>>>>>>> Init Commit -- moved all files in to PhEN folder
                         </div>
                         
                         <div class="home-card" id="no-grid-mode">
                             <div class="home-icon">⬜</div>
+<<<<<<< HEAD
                             <div class="home-label">No Grid</div>
+=======
+                            <div class="home-label">Grid be Gone!</div>
+>>>>>>> Init Commit -- moved all files in to PhEN folder
                         </div>
                     </div>
                 </div>
@@ -263,7 +289,10 @@ function renderElementBank(container) {
         const div = document.createElement('div');
         div.className = 'element';
         div.dataset.number = el.number;
+<<<<<<< HEAD
         div.draggable = true;
+=======
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 
         div.innerHTML = `
             ${
@@ -274,8 +303,19 @@ function renderElementBank(container) {
             <div class="symbol">${el.symbol}</div>
         `;
 
+<<<<<<< HEAD
         div.ondragstart = (e) => {
             e.dataTransfer.setData("number", el.number);
+=======
+        div.onclick = () => {
+
+            document
+                .querySelectorAll(".element-bank .element")
+                .forEach(el => el.classList.remove("selected"));
+            div.classList.add("selected");
+
+            selectedElementNumber = el.number;
+>>>>>>> Init Commit -- moved all files in to PhEN folder
         };
 
         bank.appendChild(div);
@@ -302,9 +342,16 @@ function shuffleGameElements() {
         return;
     }
 
+<<<<<<< HEAD
     gameElements = [...elements]
         .sort(() => Math.random() - 0.5)
         .slice(0, 12);
+=======
+    const pool = getLevelPool();
+    gameElements = [...pool]
+        .sort(() => Math.random() - 0.5)
+        .slice(0, getLevelSize());
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 
     for (let i = gameElements.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -358,7 +405,10 @@ function showRestartButton() {
 
     btn.onclick = () => {
         resetGameMode();
+<<<<<<< HEAD
         startGameMode();
+=======
+>>>>>>> Init Commit -- moved all files in to PhEN folder
         resetPatchProgress();
         startPatchLevel();
     };
@@ -404,9 +454,15 @@ function showGameIntroPopup(title, subtitle, buttonText = "Begin", onBegin = nul
 
 function startPatchMode() {
     showGameIntroPopup(
+<<<<<<< HEAD
         "Patch the Table: Show Grid",
         "Fill in the missing elements.",
         "Begin",
+=======
+        "Patch the Table: Gimme the Grid!",
+        "Use what you know of the periodic table to fill in the missing elements.",
+        "Start!",
+>>>>>>> Init Commit -- moved all files in to PhEN folder
         () => {
             currentGameType = "patch";
             startGameMode(true);
@@ -416,9 +472,15 @@ function startPatchMode() {
 
 function startBlankMode() {
     showGameIntroPopup(
+<<<<<<< HEAD
         "Patch the Table: No Grid",
         "The table has been taken away!",
         "Begin",
+=======
+        "Patch the Table: Grid be Gone!",
+        "The table is invisible. Fill in the elements that remain.",
+        "Start!",
+>>>>>>> Init Commit -- moved all files in to PhEN folder
         () => {
             currentGameType = "blank";
             startGameMode(false);
@@ -441,14 +503,94 @@ function startMasterMode() {
 function startTimedMode() {
     showGameIntroPopup(
         "⏳ Timed Trial!",
+<<<<<<< HEAD
         "Complete the table before time runs out.",
         "Begin",
+=======
+        "Can you complete the table before time runs out?",
+        "Start!",
+>>>>>>> Init Commit -- moved all files in to PhEN folder
         () => {
             showCountdownOverlay();
         }
     );
 }
 
+<<<<<<< HEAD
+=======
+function resetTypingSlot(div) {
+    const input = div.querySelector(".symbol-input");
+    const questionMark = div.querySelector(".question-mark");
+    div.classList.remove("typing");
+
+    if (input) {
+        input.value = "";
+        input.classList.add("hidden");
+    }
+
+    if (questionMark) {
+        questionMark.style.display = "block";
+    }
+    return;
+}
+
+function handleCorrectPlacement(div, el) {
+    if (
+        currentGameType === "patch" ||
+        currentGameType === "blank" ||
+        currentMode === "table_timed"
+    ) {
+        div.innerHTML = `
+            <div class="symbol">${el.symbol}</div>
+        `;
+    }
+
+    div.classList.remove("target-slot");
+    div.classList.add("placed-correct");
+
+    placedElements[el.number] = true;
+    updatePlacedCounter();
+    currentStreak++;
+
+    if (currentMode === "table_timed") {
+        const bonus = timedBonuses[el.number] || 0;
+        timeRemaining += 1 + bonus;
+        updateTimerDisplay();
+    }
+
+    const bankElement = document.querySelector(
+        `.element-bank .element[data-number="${el.number}"]`
+    );
+
+    if (bankElement) {
+        bankElement.remove();
+    }
+
+    if (currentStreak === 5) {
+        showFitStreakPopup(
+            "Nice!",
+            "5 in a row!"
+        );
+    }
+
+    if (currentStreak === 10) {
+        showFitStreakPopup(
+            "Excellent!",
+            "10 streak!"
+        );
+    }
+
+    if (currentStreak === 20) {
+        showFitStreakPopup(
+            "Wow!",
+            "You are UNSTOPPABLE!"
+        );
+    }
+
+    checkLevelCompletion();
+}
+
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 function createScorePanel(totalElements) {
     const panel = document.createElement("div");
 
@@ -499,13 +641,55 @@ function createLivesPanel() {
             id="lives-display"
             class="lives-display"
         >
+<<<<<<< HEAD
             Level ${patchLevel}  ${"♥".repeat(patchLives)}
+=======
+            Level ${currentLevel}  ${"♥".repeat(currentLives)}
+>>>>>>> Init Commit -- moved all files in to PhEN folder
         </div>
     `;
 
     return panel;
 }
 
+<<<<<<< HEAD
+=======
+function animateLevelUp() {
+
+    const display = document.getElementById("lives-display");
+
+    if (!display) return;
+
+    display.classList.remove("level-up-wiggle");
+
+    void display.offsetWidth;
+
+    display.classList.add("level-up-wiggle");
+}
+
+
+function getLevelSize() {
+    return Math.min(6 + Math.floor((currentLevel - 1) / 2), 12);
+}
+
+function getLevelPool() {
+
+    if (currentLevel <= 5) {
+        return elements.slice(0,20);
+    }
+
+    if (currentLevel <= 10) {
+        return elements.slice(0,36);
+    }
+
+    if (currentLevel < 15) {
+        return elements.slice(0,54);
+    }
+
+    return elements;
+}
+
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 function showLevelCompletePopup() {
     const popup = document.createElement("div");
 
@@ -515,12 +699,21 @@ function showLevelCompletePopup() {
     popup.innerHTML = `
         <div class="correct-popup-card">
         
+<<<<<<< HEAD
             <div class="section-title">
                 Level Complete!
             </div>
             
             <div class="phenonics-subtitle">
                 Level ${patchLevel} mastered.
+=======
+            <div class="section-title patch-level-complete-title">
+                Level Complete!
+            </div>
+
+            <div class="phenonics-subtitle continue-next-level-subtitle">
+                Continue to Level ${currentLevel + 1} ?
+>>>>>>> Init Commit -- moved all files in to PhEN folder
             </div>
             
             <button
@@ -540,6 +733,7 @@ function showLevelCompletePopup() {
     ).onclick = () => {
 
         popup.remove();
+<<<<<<< HEAD
         patchLevel++;
         startPatchLevel();
     };
@@ -550,6 +744,37 @@ function startPatchLevel() {
     gameElements = [...elements]
         .sort(() => Math.random() - 0.5)
         .slice(0, 12);
+=======
+        advanceLevel();
+    };
+}
+
+function advanceLevel() {
+    currentLevel++;
+    gameFinished = false;
+    placedElements = {};
+    currentStreak = 0;
+
+    startPatchLevel();
+
+    setTimeout(() => {
+        animateLevelUp();
+    }, 50);
+}
+
+function startPatchLevel() {
+
+    gameFinished = false;
+
+    currentLevelSize = getLevelSize();
+
+    const pool = getLevelPool();
+
+
+    gameElements = [...pool]
+        .sort(() => Math.random() - 0.5)
+        .slice(0, currentLevelSize);
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 
     placedElements = {};
     renderGameBoard();
@@ -558,11 +783,22 @@ function startPatchLevel() {
 
 function loseLife() {
 
+<<<<<<< HEAD
     patchLives--;
 
     updateLivesDisplay();
 
     if (patchLives <= 0) {
+=======
+    if (currentMode === "table_timed")
+        return;
+
+    currentLives--;
+
+    updateLivesDisplay();
+
+    if (currentLives <= 0) {
+>>>>>>> Init Commit -- moved all files in to PhEN folder
         gameOver();
     }
 }
@@ -577,7 +813,11 @@ function updateLivesDisplay() {
         if (!display) return;
 
         display.innerHTML = `
+<<<<<<< HEAD
         Level ${patchLevel}  ${"♥".repeat(patchLives)}`;
+=======
+        Level ${currentLevel}  ${"♥".repeat(currentLives)}`;
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 }
 
 
@@ -634,6 +874,24 @@ function showShuffleWarningPopup() {
     }, 800);
 }
 
+<<<<<<< HEAD
+=======
+function checkLevelCompletion() {
+    if (gameFinished) return;
+
+    const total = gameElements.length;
+    const placed = Object.keys(placedElements).length;
+
+    if (placed >= total) {
+        gameFinished = true;
+
+        setTimeout(() => {
+           showLevelCompletePopup();
+        }, 200);
+    }
+}
+
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 function showFitCompletionPopup() {
 
     const popup = document.createElement("div");
@@ -671,10 +929,14 @@ function updatePlacedCounter() {
 
     const placed = Object.keys(placedElements).length;
 
+<<<<<<< HEAD
     const total = 
     currentGameType === "master"
         ? 118
         : 12;
+=======
+    const total = gameElements.length;
+>>>>>>> Init Commit -- moved all files in to PhEN folder
     
     counter.innerText = `${placed}/${total}`;
 
@@ -730,9 +992,39 @@ function beginTimedGame() {
     gameStarted = true;
     currentMode = "table_timed";
     currentGameType = "master";
+<<<<<<< HEAD
     timeRemaining = 60;
 
     beginMasterGame();
+=======
+    timeRemaining = 180;
+
+    timedBonuses = {};
+
+    gameElements = [...elements];
+
+    for (let i = gameElements.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [gameElements[i], gameElements[j]] =
+            [gameElements[j], gameElements[i]];
+    }
+
+    const shuffled = [...gameElements]
+        .sort(() => Math.random() - 0.5);
+
+    const bonus5 = shuffled.slice(0,6);
+    const bonus7 = shuffled.slice(6,9);
+
+    bonus5.forEach(el => {
+        timedBonuses[el.number] = 5;
+    });
+
+    bonus7.forEach(el => {
+        timedBonuses[el.number] = 7;
+    });
+
+    renderGameBoard();
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 
     setTimeout(() => {
         updateTimerDisplay();
@@ -769,7 +1061,11 @@ function createTimerPanel() {
             id="timed-trial-clock"
             class="timer-value"
         >
+<<<<<<< HEAD
             1:00
+=======
+            3:00
+>>>>>>> Init Commit -- moved all files in to PhEN folder
         </div>
     `;
 
@@ -881,4 +1177,8 @@ function cleanupTimedMode() {
 
     gameStarted = false;
     gameFinished = true;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> Init Commit -- moved all files in to PhEN folder

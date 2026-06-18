@@ -343,10 +343,14 @@ function buildPeriodicTable(container, targetSet = null, showContext = false, sh
         const right = document.createElement("div");
         right.className = "hud-right";
 
+<<<<<<< HEAD
         const totalElements =
         currentGameType === "master"
             ? 118
             : 12;
+=======
+        const totalElements = gameElements.length;
+>>>>>>> Init Commit -- moved all files in to PhEN folder
 
         center.appendChild(createScorePanel(totalElements));
         hud.appendChild(center);
@@ -558,6 +562,7 @@ const CHEM_QUESTIONS = {
             ]
         },
 
+<<<<<<< HEAD
         // {
         //     question: "What particle has a negative charge?",
         //     correct: "Electron",
@@ -678,6 +683,128 @@ const CHEM_QUESTIONS = {
         //         "Proton "
         //     ]
         // },
+=======
+        {
+            question: "What particle has a negative charge?",
+            correct: "Electron",
+            answers: [
+                "Proton",
+                "Electron",
+                "Neutron",
+                "Nucleus"
+            ]
+        },
+
+        {
+            question: "What particle has no charge?",
+            correct: "Neutron",
+            answers: [
+                "Electron",
+                "Proton",
+                "Neutron",
+                "Ion"
+            ]
+        },
+
+        {
+            question: "Where are protons found?",
+            correct: "Nucleus",
+            answers: [
+                "Electron Cloud",
+                "Shell",
+                "Nucleus",
+                "Orbit"
+            ]
+        },
+
+        {
+            question: "Which particle determines atomic number?",
+            correct: "Protons",
+            answers: [
+                "Electrons",
+                "Neutrons",
+                "Protons",
+                "Photons"
+            ]
+        },
+
+        {
+            question: "Which particle is the smallest?",
+            correct: "Electron",
+            answers: [
+                "Proton",
+                "Electron",
+                "Neutron",
+                "Nucleus"
+            ]
+        },
+
+        {
+            question: "What charge does a neutron have?",
+            correct: "Neutral",
+            answers: [
+                "Positive",
+                "Negative",
+                "Neutral",
+                "Variable"
+            ]
+        },
+
+        {
+            question: "Atoms are mostly made of...",
+            correct: "Empty space",
+            answers: [
+                "Solid matter",
+                "Water",
+                "Metal",
+                "Empty space"
+            ]
+        },
+
+        {
+            question: "What is found inside the nucleus?",
+            correct: "Protons and neutrons",
+            answers: [
+                "Electrons only",
+                "Protons and neutrons",
+                "Photons",
+                "Electron shells"
+            ]
+        },
+
+        {
+            question: "Which particle(s) move around the nucleus?",
+            correct: "Electron",
+            answers: [
+                "Proton",
+                "Electron",
+                "Neutron",
+                "Nucleon"
+            ]
+        },
+
+        {
+            question: "What keeps electrons attracted to the nucleus?",
+            correct: "Electromagnetic force",
+            answers: [
+                "Gravity",
+                "Strong force",
+                "Electromagnetic force",
+                "Magnetism only"
+            ]
+        },
+
+        {
+            question: "Smallest unit of an element that retains its properties?",
+            correct: "Atom",
+            answers: [
+                "Molecule",
+                "Atom",
+                "Electron",
+                "Proton "
+            ]
+        },
+>>>>>>> Init Commit -- moved all files in to PhEN folder
     ],
 
     atoms: [
@@ -704,6 +831,7 @@ const CHEM_QUESTIONS = {
             ]
         },
 
+<<<<<<< HEAD
     //     {
     //         question: "What is the center of an atom called?",
     //         correct: "Nucleus",
@@ -858,6 +986,161 @@ const CHEM_QUESTIONS = {
     //         ]
     //     },
     // ],
+=======
+        {
+            question: "What is the center of an atom called?",
+            correct: "Nucleus",
+            answers: [
+                "Electron Shell",
+                "Nucleus",
+                "Proton Cloud",
+                "Core"
+            ]
+        },
+
+        {
+            question: "Which particle determines the element?",
+            correct: "Protons",
+            answers: [
+                "Electrons",
+                "Neutrons",
+                "Protons",
+                "Ions"
+            ]
+        },
+
+        {
+            question: "Atoms with different neutron counts are called?",
+            correct: "Isotopes",
+            answers: [
+                "Compound",
+                "Ions",
+                "Molecules",
+                "Isotopes"
+            ]
+        },
+
+        {
+            question: "What is the atomic number?",
+            correct: "Number of protons",
+            answers: [
+                "Number of neutrons",
+                "Number of protons",
+                "Atomic mass",
+                "Electron charge"
+            ]
+        },
+
+        {
+            question: "What charge does a neutral atom have?",
+            correct: "No net charge",
+            answers: [
+                "Positive",
+                "Negative",
+                "No net charge",
+                "Variable"
+            ]
+        },
+
+        {
+            question: "What happens when an atom gains electrons?",
+            correct: "It becomes negative",
+            answers: [
+                "It becomes neutral",
+                "It becomes positive",
+                "It becomes unstable",
+                "It becomes negative"
+            ]
+        },
+
+        {
+            question: "What happens when an atom loses electrons?",
+            correct: "It becomes positive",
+            answers: [
+                "It becomes negative",
+                "It becomes positive",
+                "It becomes neutral",
+                "It becomes heavier"
+            ]
+        },
+
+        {
+            question: "What is an element's mass number?",
+            correct: "Protons plus neutrons",
+            answers: [
+                "Electrons plus protons",
+                "Protons only",
+                "Protons plus neutrons",
+                "Neutrons only"
+            ]
+        },
+
+        {
+            question: "Which particles are found in the nucleus?",
+            correct: "Protons and neutrons",
+            answers: [
+                "Electrons and protons",
+                "Electrons only",
+                "Neutrons and electrons",
+                "Protons and neutrons"
+            ]
+        },
+
+        {
+            question: "What is a charged atom called",
+            correct: "Ion",
+            answers: [
+                "Molecule",
+                "Ion",
+                "Compound",
+                "Isotope"
+            ]
+        },
+
+        {
+            question: "Most of an atom's mass is located where?",
+            correct: "Nucleus",
+            answers: [
+                "Photons",
+                "Nucleus",
+                "Electrons",
+                "Atoms don't have mass"
+            ]
+        },
+
+        {
+            question: "About how many different kinds of atoms are there?",
+            correct: "Over 100",
+            answers: [
+                "Less than 20",
+                "No more than 50",
+                "Over 100",
+                "Over 500"
+            ]
+        },
+
+        {
+            question: "What is the most abundant type of atom in the universe?",
+            correct: "Hydrogen",
+            answers: [
+                "Helium",
+                "Hydrogen",
+                "Neon",
+                "Iron"
+            ]
+        },
+
+        {
+            question: "Atoms bond together to form?",
+            correct: "Molecules",
+            answers: [
+                "Neutrons",
+                "Protons",
+                "Molecules",
+                "Nuclei"
+            ]
+        },
+>>>>>>> Init Commit -- moved all files in to PhEN folder
     ],
 
     molecules: [
@@ -875,7 +1158,11 @@ const CHEM_QUESTIONS = {
 
         {
             question: "What shape is a molecule?",
+<<<<<<< HEAD
             correct: "They have many shapes and sizes",
+=======
+            correct: "Molecules have many shapes and sizes",
+>>>>>>> Init Commit -- moved all files in to PhEN folder
             answers: [
                 "Molecules have no shape",
                 "Molecules look like squares",
@@ -885,6 +1172,7 @@ const CHEM_QUESTIONS = {
         },
 
         {
+<<<<<<< HEAD
             question: "What is it called when a molecule breaks down into its component atom(s)?",
             correct: "Decomposition reaction",
             answers: [
@@ -892,6 +1180,49 @@ const CHEM_QUESTIONS = {
                 "Heat transfer",
                 "Loss state",
                 "Decomposition reaction"
+=======
+            question: "What type of bond is it when electron pairs are shared between atoms?",
+            correct: "Covalent Bond",
+            answers: [
+                "Cohesive Bond",
+                "Covalent Bond",
+                "Magnetic Bond",
+                "James Bond"
+            ]
+        },
+
+        {
+            question: "How many covalent bonds can hydrogen form at a time?",
+            corect: "1",
+            answers: [
+                "1",
+                "2",
+                "3",
+                "4"
+            ]
+        },
+
+        {
+            question: "How many atoms make up a water molecule?",
+            correct: "3",
+            answers: [
+                "1",
+                "2",
+                "3",
+                "4"
+            ]
+        },
+
+
+        {
+            question: "What is it called when a molecule breaks down into its component atom(s)?",
+            correct: "Decomposition Reaction",
+            answers: [
+                "Decay",
+                "Heat Transfer",
+                "Loss State",
+                "Decomposition Reaction"
+>>>>>>> Init Commit -- moved all files in to PhEN folder
             ]
         },
 
