@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhENONICS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Exo+2:wght@400;600;800&display=swap" rel="stylesheet">    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="phenonics_home.css"
+</head>
+<body>
+    <div class="cosmic-bg"></div>
+
+
+    <div id="phenonics-title">PhEN.</div>
+
+    <div class="app">
+
+        <div id="sidebar" class="sidebar collapsed">
+
+        <div class="sidebar-root-title">Learning Center</div>
+
+            <div id="home-nav-item"
+                class="sidebar-root-item active"
+                data-mode="home">
+                    <span class="dot"></span>
+                    <span class="label">Home</span>
+            </div>
+
+            <div id="sidebar-divider"></div>
+
+            <div id="active-subject-container"></div>
+
+        </div>
+
+        <div id="content" class="content">
+
+            <div class="main-wrapper">
+                <div id="game-arena"></div>
+                <div id="game-controls" class="game-controls"></div>
+            </div>
+        </div>
+
+        <div id="sidebar-toggle" class="floating-toggle" onclick="toggleSidebar()">☰</div>
+    
+    </div>
+
+    <div id="chemistry-sidebar-template" data-sidebar="chemistry" style="display:none;">
+        <div class="chemistry-sidebar-block">
+
+            <div class="sidebar-group" data-group="journey">
+
+                <div class="sidebar-title nav-title" data-mode="journey">
+                    Journey
+                </div>
+            </div>
+        
+            <div class="sidebar-group" data-group="explore">
+
+                <div class="sidebar-title nav-title">
+                    Tools
+                </div>
+
+                <div class="sidebar-submenu">
+
+                    <div class="overlay-item tool-item" data-mode="table">
+                        <span class="dot"></span>
+                        <span class="label">Periodic Table</span>
+                    </div>
+
+                    <div class="overlay-item tool-item" data-mode="lewis">
+                        <span class="dot"></span>
+                        <span class="label">Lewis Dots</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="sidebar-group" data-group="train">
+                <div class="sidebar-title">
+                    Games
+                </div>
+
+                <div class="sidebar-submenu">
+                    <div class="overlay-item tool-item"data-mode="elemental_fit_menu">
+                        <span class="dot"></span>
+                        <span class="label">Elemental Fit</span>
+                    </div>
+
+                    <div class="overlay-item tool-item"data-mode="matchmaker">
+                        <span class="dot"></span>
+                        <span class="label">MatchMaker</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sidebar-dynamic-panel"></div>
+
+        </div>
+
+    </div>
+
+    <div id="table-tools-template" style="display:none;">
+
+
+        <div class="sidebar-subsection table-tools-header">
+            Table Tools
+        </div>
+
+        <div class="table-tools-menu">
+
+            <div class="overlay-item tool-item" data-overlay="radius">
+                <span class="dot"></span>
+                <span class="label">Atomic Radius</span>
+            </div>
+
+            <div class="overlay-item tool-item" data-overlay="electronegativity">
+                <span class="dot"></span>
+                <span class="label">Electronegativity</span>
+            </div>
+
+            <div class="overlay-item tool-item" data-overlay="colorGrid">
+                <span class="dot"></span>
+                <span class="label">Element Groups</span>  
+            </div>
+
+            <div class="overlay-item tool-item" data-overlay="ionization">
+                <span class="dot"></span>
+                <span class="label">Ionization</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Holographic Hover -->
+    <div id="holo-popup" class="holo-popup hidden text-sm"></div>
+
+    <!-- 3D Crystal Modal -->
+    <div id="modal" onclick="if(event.target.id==='modal') closeModal()" class="hidden fixed inset-0 bg-black/95 flex items-center justify-center z-[100]">
+        <div onclick="event.stopImmediatePropagation()" class="modal-content p-10 rounded-3xl w-full max-w-4xl mx-6">
+            <div class="flex justify-between mb-8">
+                <div id="modal-title" class="text-4xl font-bold text-white tracking-wide"></div>
+                <button onclick="closeModal()" class="text-5xl text-cyan-300 hover:text-white leading-none transition-colors">×</button>
+            </div>
+            <div id="three-canvas" class="w-full h-[460px] bg-black/90 rounded-3xl overflow-hidden border border-cyan-400/50"></div>
+            <div id="modal-notes" class="mt-10 text-slate-200 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 text-base leading-relaxed"></div>            </div>
+        </div>
+    </div>
+
+    <div class="phenonics-footer">
+        PhENONICS © 2026
+    </div>
+    <script src="data.js"></script>
+   <script src="script.js"></script>
+   <script src="elemental_fit.js"></script>
+</body>
+</html>
