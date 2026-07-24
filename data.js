@@ -2,7 +2,6 @@ const TITLE_MAP = {
     home: "",
     table: "Periodic Table of Elements",
     table_chal: "Elemental Fit",
-    lewis: "Lewis Dot Structures",
     matchmaker: "MatchMaker"};
 
 const MODES = {
@@ -512,13 +511,6 @@ const GROUP_COLORS = {
     lanthanide: "#68BF00",
     actinide: "#67e8f9",
     unknown: "#ffffff"
-};
-
-const LEWIS_DATA = {
-    "h2o": "H : O : H",
-    "co2": "O = C = O",
-    "nh3": "   H\nH : N : H",
-    "ch4": "   H\nH : C : H\n   H"
 };
 
 const CHEM_JOURNEY = [

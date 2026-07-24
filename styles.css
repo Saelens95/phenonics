@@ -1,6 +1,6 @@
 .ui-section {
     width: 100%;
-    max-width: 900px;
+    max-width: 1500px;
 
     display: flex;
     flex-direction: column;
@@ -15,6 +15,7 @@
 
     backdrop-filter: blur(14px);
 }
+
 
 .home-container {
     min-height: calc(100vh - 120px);
@@ -86,8 +87,6 @@
     letter-spacing: 1px;
 }
 
-<<<<<<< HEAD
-=======
 .section-title {
     font-size: 60px;
     color: #69FAAD;
@@ -159,7 +158,6 @@
         inset 0 0 40px rgba(105, 250, 173, 0.08);
     pointer-events: none;
 }
-
 .subject-label {
     margin-top: 30px;
     font-size: 2.4rem;
@@ -167,6 +165,7 @@
     color: black;
     text-shadow: 0 0 6px rgba(255,255,255,0.5);
 }
+
 
 .subject-label.game-label {
     margin-top: 30px;
@@ -196,7 +195,6 @@
     
     height: 3px;
 
-
 }
 
 .subject-description {
@@ -209,8 +207,8 @@
 
 }
 
-
 .subject-circle {
+
     width: 210px;
     height: 210px;
 
@@ -256,7 +254,7 @@
     cursor: pointer;
 }
 
->>>>>>> Init Commit -- moved all files in to PhEN folder
+
 .chem-section {
     padding: 22px;
     border-radius: 18px;
@@ -344,17 +342,6 @@
     border: 6px solid #69FAAD;
 }
 
-<<<<<<< HEAD
-.section-title {
-    font-size: 60px;
-    color: #69FAAD;
-    text-shadow: 0 0 6px rgba(0,0,0,0.66);
-    font-weight: 700;
-    text-align: center;
-}
-
-=======
->>>>>>> Init Commit -- moved all files in to PhEN folder
 
 .start-challenge-title {
     position: relative;
@@ -915,11 +902,7 @@ body.game-mode .cosmic-bg {
     );
 }
 
-<<<<<<< HEAD
-body.game-mode .element {
-=======
 body.game-mode .element:not(.bonus-purple):not(.bonus-gold) {
->>>>>>> Init Commit -- moved all files in to PhEN folder
     border-color: #fca5a5 !important;
     box-shadow: 0 0 12px #fca5a5, inset 0 0 10px rgba(252,165,165,0.6) !important;
 }
@@ -1008,27 +991,16 @@ body.game-mode .header-fade::after {
             rgba(18,18,18,0.98)
         );
 
-<<<<<<< HEAD
-    border: 5px solid rgba(105,250,173,0.9);
-
-
-    box-shadow: 0 0 35px rgba(105,250,173,0.18);
-=======
     border: 5px solid #fca5a5;
 
 
     box-shadow: 0 0 35px rgba(252, 165, 165, 0.66);
->>>>>>> Init Commit -- moved all files in to PhEN folder
 
     text-align: center;
 
     transform: scale(0.95);
 
-<<<<<<< HEAD
-    transition: transform 0.81s ease;
-=======
     transition: transform 0.5s ease;
->>>>>>> Init Commit -- moved all files in to PhEN folder
 }
 
 
@@ -1135,11 +1107,7 @@ body.game-mode .header-fade::after {
 
 .patch-slot {
     background: rgba(255,255,255,1);
-<<<<<<< HEAD
-    color: rgba(246, 137, 137, 1);
-=======
     color: rgb(99, 241, 165);
->>>>>>> Init Commit -- moved all files in to PhEN folder
     border: 2px solid #000;
 }
 
@@ -1149,11 +1117,7 @@ body.game-mode .header-fade::after {
     justify-content: center;
 }
 
-<<<<<<< HEAD
-.patch-slot .question-mark {
-=======
 .question-mark {
->>>>>>> Init Commit -- moved all files in to PhEN folder
     position: static;
     font-size: 2em;
     font-weight: 600;
@@ -1176,16 +1140,6 @@ body.game-mode .header-fade::after {
         transform 0.15s ease;
 }
 
-<<<<<<< HEAD
-.placed-correct {
-    opacity: 1 !important;
-    background: rgba(255,255,255,0.81) !important;
-    border: 2px solid #69FAAD !important;
-    color: white !important;
-    text-shadow: 0 0 8px rgba(0, 0, 0, 0.81);
-    box-shadow:
-        0 0 14px rgba(0,0,0,0.7) !important;
-=======
 .element.selected {
     background: #69FAAD !important;
     transform: scale(1.12);
@@ -1198,15 +1152,12 @@ body.game-mode .header-fade::after {
     border: 2px solid #69FAAD !important;
     text-shadow: 0 0 6px rgba(0, 0, 0, 0.81);
    
->>>>>>> Init Commit -- moved all files in to PhEN folder
 }
 
 .wrong-drop {
     background: rgba(255,0,0,0.81) !important;
 }
 
-<<<<<<< HEAD
-=======
 .symbol-input {
     width: 100%;
     height: 100%;
@@ -1236,7 +1187,6 @@ body.game-mode .header-fade::after {
 }
 
 
->>>>>>> Init Commit -- moved all files in to PhEN folder
 
 
 .game-hud {
@@ -1323,8 +1273,6 @@ body.game-mode .header-fade::after {
 }
 
 .lives-display {
-<<<<<<< HEAD
-=======
     width: 100%;
     border-radius: 999px;
     overflow: hidden;
@@ -1336,16 +1284,11 @@ body.game-mode .header-fade::after {
     ;
     padding: 18px;
     margin-top: -21px;
->>>>>>> Init Commit -- moved all files in to PhEN folder
     transform: translateX(25%);
     color: white;
     font-size: 25px;
     font-weight: 550;
-<<<<<<< HEAD
-    text-shadow: 0 0 3px rgba(0,0,0,0.66);
-=======
     text-shadow: 0 0 6px rgba(0,0,0,0.5);
->>>>>>> Init Commit -- moved all files in to PhEN folder
     letter-spacing: 4px;
 }
 
@@ -2066,21 +2009,12 @@ body.game-mode .header-fade::after {
 
     min-height: 100px;
     width: 100%;
-<<<<<<< HEAD
-    margin-bottom: -30px;
-}
-
-.score-title {
-    font-size: 30px;
-    font-weight: 700;
-=======
     margin-top: 40px;
 }
 
 .score-title {
     font-size: 45px;
     font-weight: 600;
->>>>>>> Init Commit -- moved all files in to PhEN folder
     color: white;
     text-shadow: 0 0 3px rgba(0,0,0,0.45);
     margin-bottom: 8px;
@@ -2140,8 +2074,6 @@ body.game-mode .header-fade::after {
     z-index: 2;
     pointer-events: none;
 }
-<<<<<<< HEAD
-=======
 
 @keyframes levelWiggle {
     0% { transform: rotate(0deg); }
@@ -2173,5 +2105,3 @@ body.game-mode .header-fade::after {
     font-weight: 700;
     text-align: center;
 }
-
->>>>>>> Init Commit -- moved all files in to PhEN folder

@@ -1,9 +1,7 @@
-<<<<<<< HEAD
+
 // let currentSubject = null;
-=======
 let selectedElementNumber = null;
 let isEditing = false;
->>>>>>> Init Commit -- moved all files in to PhEN folder
 let currentMode = "home";
 let hideTimeout = null;
 let currentElement = null;
@@ -24,30 +22,37 @@ let gameElements = [];
 let placedElements = {};
 let gameFinished = false;
 let timerInterval = null;
-<<<<<<< HEAD
 let timeRemaining = 60;
-=======
 let timeRemaining = 180;
->>>>>>> Init Commit -- moved all files in to PhEN folder
 let gameStarted = false;
 let currentStreak = 0;
 let modeLock = null;
 
-<<<<<<< HEAD
 let patchLevel = 1;
 let patchLives = 3;
-=======
 let currentLives = 3;
 let currentLevel = 1;
 let currentLevelSize = 0;
 let timedBonuses = {};
->>>>>>> Init Commit -- moved all files in to PhEN folder
 
 let currentFlashcard = null;
 let flashcardIndex = 0;
 let flashcardScore = 0;
 
 const originalColor = getThemeColor();
+
+let carouselIndex = 0;
+
+
+const subjects = [
+    {icon: "🎨", label: "Art", mode: "art"},
+    {icon: "🧪", label: "Chemistry", mode: "chemistry"},
+    {icon: "🧠", label: "Philosophy", mode: "philosophy"},
+    {icon: "🧲", label: "Physics", mode: "physics"},
+    {icon: "➗", label: "Math", mode: "math"},
+    {icon: "⚙️", label: "Engineering", mode: "engineering"}
+]
+
 
 
 
@@ -85,74 +90,216 @@ function renderPhenonicsHome() {
     container.className = 'home-container';
 
     container.innerHTML = `
-        <div class="ui-section phenonics-section">
+        
+        <div class="phenonics-header">
+
+            <div class="phenonics-logo">
+                <img src="assets/phen_logo.PNG">
+            </div>
             
-            <div class="phenonics-header">
-                
-                <div class="phenonics-title">
-                    PhENONICS
+            <div class="phenonics-title">
+                Ph.ENONICS
+            </div>
+            
+            <div class="phenonics-subtitle ">
+                    Learn the language of phenomena.
+            </div>
+
+            <div class="phenonics-divider"></div>
+            
+        </div>
+
+
+        <div class="home-hero-top">
+
+            <div class="home-hero-top-left">
+
+                <div class="home-hero-left">
+
+                    <div class="homepage-showcase-row">
+
+                        <div class ="homepage-showcase">
+
+                            <div class="subject-panel featured-panel" id="featured-tool">
+                                <div class="section-title home-category-title">
+                                    Featured Tool!
+                                </div>
+                                
+                                <div class="phenonics-divider home-category-divider"></div>
+
+                                <div class="home-course-subject-circle">
+                                    ⚛️
+                                </div>
+
+                                <div class="home-subject-label">
+                                    The Periodic Table
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class ="homepage-showcase">
+
+                            <div class="subject-panel featured-panel" id="featured-game">
+                                <div class="section-title home-category-title">
+                                    Featured Game!
+                                </div>
+
+                                <div class="phenonics-divider home-category-divider"></div>
+
+
+                                <div class="home-course-subject-circle">
+                                    🎮
+                                </div>
+
+                                <div class="home-subject-label">
+                                    Elemental Fit
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-<<<<<<< HEAD
 
                 <div class="phenonics-credit">
                     From Saelenspace
                 </div>
-=======
->>>>>>> Init Commit -- moved all files in to PhEN folder
-                
-                <div class="phenonics-subtitle ">
-                     Learn the language of phenomena.
-                </div>
 
-                <div class="phenonics-divider"></div>
-                
-            </div>
-            
-            <div class="phenonics-dropdown-wrapper">
-                
-                <button class="phenonics-dropdown-btn" id="phen-dropdown-btn">
-                    Pick a subject ▼
-                </button>
-                
-                <div class="phenonics-dropdown-menu hidden" id="phen-dropdown-menu">
-                
-                    <div class="phenonics-subject active-subject" data-subject="chemistry">
-                        🧪 Chemistry
+                <div class="home-hero-right">
+
+                    <div class="hero-info-title">
+                        What is Ph.ENONICS?
                     </div>
 
-                     <div class="phenonics-subject active-subject" data-subject="physics">
-                        ⚛️ Physics
-                    </div>
+                    <div class="phenonics-divider"></div>
 
-                     <div class="phenonics-subject active-subject" data-subject="mathematics">
-                        ➗ Mathematics
-                    </div>
 
-                    <div class="phenonics-subject active-subject" data-subject="engineering">
-                        ⚙️ Engineering
+                    <div class="hero-info-text">
+                        <p>
+                            Ph.ENONICS, (Ph.n, pronounced "fin"), transforms learning into exploration through interactive tools, educational games,
+                            and guided journeys to help learners master the language of phenomena.
+                        </p>
                     </div>
                 </div>
+
             </div>
-        </div>
+
+
+            <div class="home-quote">
+
+                "Physics asks "how?" Philosophy, "why?""
+
+            </div>
+
+            <div class="home-hero">
+                <div class="home-hero-container">
+
+                    <div class="section-title hero-section-title">
+                        Explore Subjects!
+                    </div>
+
+                    <div class="phenonics-divider home-subjects-divider"></div>
+
+                    <div class="subject-carousel">
+
+                        <button id="subject-prev" class="carousel-arrow">
+                            ◀
+                        </button>
+
+                        <div
+                            id="subject-carousel-track"
+                            class="home-courses-subject-hub-row">
+                        </div>
+
+                        <button id="subject-next" class="carousel-arrow">
+                            ▶
+                        </button>
+
+                    </div>
+                </div>
+            </div>
     `;
 
     arena.appendChild(container);
 
-    const dropdownBtn = document.getElementById("phen-dropdown-btn");
-    const dropdownMenu = document.getElementById("phen-dropdown-menu");
+    document.getElementById("featured-tool")
+        .onclick = () => setMode("table");
 
-    dropdownBtn.onclick = () => {
-        dropdownMenu.classList.toggle("hidden");
-    };
+    document.getElementById("featured-game")
+        .onclick = () => setMode("elemental_fit_menu");
 
-    document.querySelectorAll(".phenonics-subject")
-        .forEach(card => {
-            card.onclick = () => {
-                const subject = card.dataset.subject;
+    renderSubjectCarousel();
 
-                setMode(subject);
-            };
-        });
+    document.getElementById("subject-prev")
+        .onclick = () => {
+
+            carouselIndex--;
+
+            if (carouselIndex < 0) {
+                carouselIndex =
+                    subjects.length - 1;
+            }
+
+            renderSubjectCarousel();
+        };
+    
+    document.getElementById("subject-next")
+        .onclick = () => {
+
+            carouselIndex++;
+
+            if (carouselIndex >= subjects.length) {
+                carouselIndex = 0;
+            }
+
+            renderSubjectCarousel();
+        };
+}
+
+function renderSubjectCarousel() {
+
+    const track =
+        document.getElementById(
+            "subject-carousel-track"
+        );
+    
+    if (!track) return;
+    
+    track.innerHTML = "";
+
+    const visibleSubjects = [];
+
+    for (let i =0; i < 3; i++) {
+        
+        visibleSubjects.push(
+            subjects[
+                (carouselIndex + i)
+                % subjects.length
+            ]
+        );
+    }
+
+    visibleSubjects.forEach(subject => {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "subject-node";
+
+        card.innerHTML = `
+            <div class="home-course-subject-circle">
+                ${subject.icon}
+            </div>
+            
+            <div class="home-subject-label">
+                ${subject.label}
+            </div>
+        `;
+
+        card.onclick = () => {
+            setMode(subject.mode);
+        };
+
+        track.appendChild(card);
+    });
 }
 
 function getThemeColor() {
@@ -165,7 +312,6 @@ function setMode(mode) {
     mode = String(mode).trim();
     cleanupTimedMode();
     currentMode = mode;
-
     if (modeLock === mode) return;
     modeLock = mode;
 
@@ -179,7 +325,6 @@ function setMode(mode) {
         el.classList.remove("active");
     });
 
-<<<<<<< HEAD
     if (mode === "chemistry") {
         activeSubject = "Chemistry";
 
@@ -195,9 +340,7 @@ function setMode(mode) {
 
         document.getElementById("active-subject-container").innerHTML = "";
     }
-=======
-   
->>>>>>> Init Commit -- moved all files in to PhEN folder
+    
 
     if (mode !== "table") {
         Object.keys(overlays).forEach(k => overlays[k] = false);
@@ -237,8 +380,7 @@ function setMode(mode) {
             renderPhenonicsHome();
             return;
 
-<<<<<<< HEAD
-=======
+
         case "tools_menu":
             document.body.classList.remove("game-mode");
             renderToolsMenu(currentSubject);
@@ -249,7 +391,6 @@ function setMode(mode) {
             renderGamesMenu();
             return;
 
->>>>>>> Init Commit -- moved all files in to PhEN folder
         case "journey":
             document.body.classList.remove("game-mode");
             renderChemJourney();
@@ -260,17 +401,13 @@ function setMode(mode) {
             document.body.classList.remove("game-mode");
             document.getElementById("active-subject-container").innerHTML = "";
             currentSubject = "Chemistry";
-<<<<<<< HEAD
-=======
             activeSubject = "Chemistry";
             document.body.classList.add("chemistry-active");
             document.body.classList.add("subject-active");
             updateSidebarSubject("Chemistry");
             renderChemistrySidebar();
             renderChemistryMenu();
-            
->>>>>>> Init Commit -- moved all files in to PhEN folder
-            return;
+                        return;
 
         case "table":
             currentGameType = null;
@@ -321,7 +458,6 @@ function setMode(mode) {
             renderMatchMaker();
             openSidebarGroupForMode("matchmaker");
             return;
-<<<<<<< HEAD
 
         case "lewis":
             document.body.classList.remove("game-mode");
@@ -330,9 +466,7 @@ function setMode(mode) {
             renderLewisMode();
             openSidebarGroupForMode("lewis");
             return;
-=======
->>>>>>> Init Commit -- moved all files in to PhEN folder
-            
+
         default:
             console.warn("Unknown mode", mode);
             return;
@@ -546,64 +680,7 @@ function renderChemistryMenu() {
     arena.innerHTML = '';
 
     const container = document.createElement('div');
-<<<<<<< HEAD
     container.className = 'home-container';
-
-    container.innerHTML = `
-        <div class="chemistry-sections">
-
-            <!-- JOURNEY SECTION -->
-
-            <div class="chem-section">
-
-                <div class="section-title">Journey</div>
-
-                <div class="home-card-container">
-                    <div class="home-card" id="chem-journey-card">
-                        <div class="home-icon">🧠</div>
-                        <div class="home-label">Learn Chemistry</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TOOLS -->
-
-            <div class="chem-section">
-                <div class="section-title">Tools</div>
-
-                <div class="home-card-container">
-                    <div class="home-card" id="pt-card">
-                        <div class="home-icon">⚛️</div>
-                        <div class="home-label">Periodic Table</div>
-                    </div>
-
-                    <div class="home-card" id="lewis-card">
-                        <div class="home-icon">•••</div>
-                        <div class="home-label">Lewis Dots</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- GAMES -->
-            <div class="chem-section">
-
-                <div class="section-title">Games</div>
-
-                <div class="home-card-container">
-                    <div class="home-card" id="table_chal_card">
-                        <div class="home-icon">🎮</div>
-                        <div class="home-label">Elemental Fit</div>
-                    </div>
-
-                <div class="home-card" id="matchmaker-card">
-                    <div class="home-icon">🃏</div>
-                    <div class="home-label">MatchMaker</div>
-                </div>
-            </div>
-        </div>
-    
-=======
-    container.className = "home-container";
 
     container.innerHTML = `
         <div class="subject-hub">
@@ -663,22 +740,16 @@ function renderChemistryMenu() {
                 </div>
             </div>
         </div>
->>>>>>> Init Commit -- moved all files in to PhEN folder
     `;
 
     arena.appendChild(container);
 
     // JOURNEY
-<<<<<<< HEAD
-    document.getElementById("chem-journey-card").onclick = () => {
-=======
     document.getElementById("journey-node").onclick = () => {
->>>>>>> Init Commit -- moved all files in to PhEN folder
         setMode("journey");
     };
 
     // TOOLS
-<<<<<<< HEAD
     document.getElementById("pt-card").onclick = () => {
         setMode("table");
     };
@@ -688,7 +759,6 @@ function renderChemistryMenu() {
     };
 
     // GAMES
-=======
     document.getElementById("tools-node").onclick = () => {
         setMode("tools_menu");
     };
@@ -714,7 +784,7 @@ function renderToolsMenu() {
         <div class="subject-hub">
 
             <div class="section-title subject-header">
-               ${currentSubject} Tools
+            ${currentSubject} Tools
             </div>
 
             <div class="phenonics-divider subject-divider"></div>
@@ -737,7 +807,7 @@ function renderToolsMenu() {
                             Explore the elements and their properties!
                         </div>
                     </div>
-                </dov>
+                </div>
             </div>
         </div>
     `;
@@ -809,7 +879,6 @@ function renderGamesMenu() {
 
     arena.appendChild(container);
 
->>>>>>> Init Commit -- moved all files in to PhEN folder
     document.getElementById("table_chal_card").onclick = () => {
         setMode("elemental_fit_menu");
     };
@@ -817,17 +886,12 @@ function renderGamesMenu() {
     document.getElementById("matchmaker-card").onclick = () => {
         setMode("matchmaker");
     };
-<<<<<<< HEAD
 
 }
 
-=======
-}
 
 
 
-
->>>>>>> Init Commit -- moved all files in to PhEN folder
 function renderChemistrySidebar() {
     const sidebar = document.getElementById("sidebar");
 
@@ -942,7 +1006,7 @@ function renderChemJourney() {
             </div>
         </div>
 
- 
+    
     `;
 
     arena.appendChild(container);
@@ -1345,8 +1409,6 @@ function createElementSlot(el, targetSet = null) {
         if (isTarget) {
             div.className = 'element';
 
-<<<<<<< HEAD
-=======
             const bonus = timedBonuses?.[el.number];
             const hasBonus = currentMode === "table_timed" && bonus;
 
@@ -1370,7 +1432,6 @@ function createElementSlot(el, targetSet = null) {
                 if (bonus === 7) div.classList.add("bonus-gold");
             }
 
->>>>>>> Init Commit -- moved all files in to PhEN folder
             if (
                 currentGameType === "patch" ||
                 currentGameType === "blank"
@@ -1380,14 +1441,6 @@ function createElementSlot(el, targetSet = null) {
 
             if (
                 currentGameType === "patch" ||
-<<<<<<< HEAD
-                currentGameType === "blank"
-            ) {
-                div.classList.add("question-slot");
-
-                div.innerHTML = `
-                    <div class="question-mark">?</div>
-=======
                 currentGameType === "blank" ||
                 currentMode === "table_timed"
             ) {
@@ -1397,7 +1450,6 @@ function createElementSlot(el, targetSet = null) {
                 div.innerHTML = `
                     <div class="question-mark">?</div>
                     <input class="symbol-input hidden" maxlength="2" />
->>>>>>> Init Commit -- moved all files in to PhEN folder
                 `;
             }
 
@@ -1409,69 +1461,6 @@ function createElementSlot(el, targetSet = null) {
                 div.style.transform = "scale(1)";
             };
 
-<<<<<<< HEAD
-            div.ondragover = (e) => e.preventDefault();
-
-            div.ondrop = (e) => {
-
-                const draggedNumber = Number(e.dataTransfer.getData("number"));
-                
-                if (draggedNumber === el.number) {
-                   
-                    if (
-                        currentGameType === "patch" ||
-                        currentGameType === "blank"
-                    ) {
-
-                        div.innerHTML = `
-                            <div class="symbol">${el.symbol}</div>
-                        `;
-                    } else {
-
-                        div.innerHTML = `
-                            <div class="number">${el.number}</div>
-                            <div class="symbol">${el.symbol}</div>
-                            <div class="mass">${el.mass}</div>
-                        `;
-                    }
-
-                    div.classList.remove("target-slot");
-                    div.classList.add("placed-correct");
-
-                    placedElements[el.number] = true;
-                    updatePlacedCounter();
-                    currentStreak++;
-
-                    if (currentStreak === 5) {
-                        showFitStreakPopup(
-                            "Nice!",
-                            "5 in a row!"
-                        );
-                    }
-
-                    if (currentStreak === 10) {
-                        showFitStreakPopup(
-                            "Excellent!",
-                            "10 streak!"
-                        );
-                    }
-
-                    if (currentStreak === 20) {
-                        showFitStreakPopup(
-                            "Wow!",
-                            "You are UNSTOPPABLE!"
-                        );
-                    }
-
-
-                    const draggedElement = document.querySelector(
-                        `.element-bank .element[data-number="${el.number}"]`
-                    );
-
-                    if (draggedElement) {
-                        draggedElement.remove();
-                    }
-=======
             div.onclick = () => {
 
                 if (div.classList.contains("typing")) return;
@@ -1532,15 +1521,11 @@ function createElementSlot(el, targetSet = null) {
                 if (chosenNumber === el.number) {
                     handleCorrectPlacement(div, el);
                     checkLevelCompletion();
->>>>>>> Init Commit -- moved all files in to PhEN folder
 
                     if (!gameFinished && gameElements.every(el => placedElements[el.number])) {
                         gameFinished = true;
                         setTimeout(() => {
                             showFitCompletionPopup();
-<<<<<<< HEAD
-                            showRestartButton();
-=======
 
                             setTimeout(() => {
                                 currentLevel++;
@@ -1555,27 +1540,19 @@ function createElementSlot(el, targetSet = null) {
                                 startPatchLevel();
                             }, 1500);
 
->>>>>>> Init Commit -- moved all files in to PhEN folder
                         }, 200);
                     }
                 
                 } else {
                     currentStreak = 0;
-<<<<<<< HEAD
-=======
                     loseLife();
->>>>>>> Init Commit -- moved all files in to PhEN folder
 
                     div.classList.add("wrong-drop");
                     setTimeout(() => {
                         div.classList.remove("wrong-drop");
                     }, 300);
 
-<<<<<<< HEAD
-                    loseLife();
-=======
                     
->>>>>>> Init Commit -- moved all files in to PhEN folder
                 }
             };
         }
@@ -1639,7 +1616,6 @@ function createElementSlot(el, targetSet = null) {
 
     // Element Colors
     if (overlays.colorGrid && !overlays.radius) {
-<<<<<<< HEAD
         const groupColor = GROUP_COLORS[el.group] || originalColor;
         const showAll = activeGroups.size === 0;
         const isActive = activeGroups.has(el.group);
@@ -1652,7 +1628,6 @@ function createElementSlot(el, targetSet = null) {
 
             div.style.opacity = "0.15";
             div.style.boxShadow = "none";
-=======
 
         if (
             !(currentMode === "table_timed" && timedBonuses?.[el.number]) 
@@ -1671,7 +1646,6 @@ function createElementSlot(el, targetSet = null) {
                 div.style.opacity = "0.15";
                 div.style.boxShadow = "none";
             }
->>>>>>> Init Commit -- moved all files in to PhEN folder
         }
     }
 
@@ -1696,8 +1670,9 @@ function createElementSlot(el, targetSet = null) {
             div.style.color = "#000";
         }
     }
-   
+    
     return div;
+}
 }
 
 function getEnergyColor(value) {
@@ -1722,9 +1697,9 @@ function getEnergyColor(value) {
 
 function renderTableCell(el, targetSet = null) {
 
-   if (!targetSet || currentMode === "table") {
+    if (!targetSet || currentMode === "table") {
         return createElementSlot(el);
-   }
+    }
 
     const isTarget = targetSet.has(el.number);
 
@@ -1910,7 +1885,7 @@ function showHoloPopup(e, el) {
                             style="text-shadow: 0 0 3px rgba(0,0,0,0.5);"
                         >
                             Group: ${el.group.replace(/_/g, " ")}
-                         </div>
+                        </div>
                     `
                 }
 
@@ -1990,7 +1965,6 @@ function refreshGrid() {
         buildPeriodicTable(container, targetSet);
         return;
     }
-<<<<<<< HEAD
 
     // switch (currentMode) {
     //     case "practice":
@@ -2001,8 +1975,6 @@ function refreshGrid() {
     //         break;
 
     //     default: buildPeriodicTable(container);
-=======
->>>>>>> Init Commit -- moved all files in to PhEN folder
 }
 
 
@@ -2075,7 +2047,6 @@ function hideHoloPopup() {
     }, 0);
 }
 
-<<<<<<< HEAD
 function renderLewisMode() {
     const arena = document.getElementById('game-arena');
 
@@ -2311,10 +2282,7 @@ function setupLewisSearch() {
 //     currentElement = null;
 // }
 
-
-=======
 // ------------------------------------------------------------------------
->>>>>>> Init Commit -- moved all files in to PhEN folder
 window.onload =  function () {
 
 
@@ -2335,10 +2303,4 @@ window.onload =  function () {
     });
 
     renderPhenonicsHome();
-<<<<<<< HEAD
 };
-
-
-=======
-};
->>>>>>> Init Commit -- moved all files in to PhEN folder
