@@ -1,4 +1,3 @@
-
 // let currentSubject = null;
 let selectedElementNumber = null;
 let isEditing = false;
@@ -22,7 +21,6 @@ let gameElements = [];
 let placedElements = {};
 let gameFinished = false;
 let timerInterval = null;
-let timeRemaining = 60;
 let timeRemaining = 180;
 let gameStarted = false;
 let currentStreak = 0;
@@ -94,7 +92,7 @@ function renderPhenonicsHome() {
         <div class="phenonics-header">
 
             <div class="phenonics-logo">
-                <img src="assets/phen_logo.PNG">
+                 <img src="assets/phen_logo.PNG">
             </div>
             
             <div class="phenonics-title">
@@ -102,7 +100,7 @@ function renderPhenonicsHome() {
             </div>
             
             <div class="phenonics-subtitle ">
-                    Learn the language of phenomena.
+                Learn the language of phenomena.
             </div>
 
             <div class="phenonics-divider"></div>
@@ -159,63 +157,62 @@ function renderPhenonicsHome() {
                     </div>
                 </div>
 
-                <div class="phenonics-credit">
-                    From Saelenspace
-                </div>
-
-                <div class="home-hero-right">
-
-                    <div class="hero-info-title">
-                        What is Ph.ENONICS?
-                    </div>
-
-                    <div class="phenonics-divider"></div>
-
-
-                    <div class="hero-info-text">
-                        <p>
-                            Ph.ENONICS, (Ph.n, pronounced "fin"), transforms learning into exploration through interactive tools, educational games,
-                            and guided journeys to help learners master the language of phenomena.
-                        </p>
-                    </div>
-                </div>
-
             </div>
 
+            <div class="home-hero-right">
 
-            <div class="home-quote">
+                <div class="hero-info-title">
+                    What is Ph.ENONICS?
+                </div>
 
-                "Physics asks "how?" Philosophy, "why?""
+                <div class="phenonics-divider"></div>
 
-            </div>
 
-            <div class="home-hero">
-                <div class="home-hero-container">
-
-                    <div class="section-title hero-section-title">
-                        Explore Subjects!
-                    </div>
-
-                    <div class="phenonics-divider home-subjects-divider"></div>
-
-                    <div class="subject-carousel">
-
-                        <button id="subject-prev" class="carousel-arrow">
-                            ◀
-                        </button>
-
-                        <div
-                            id="subject-carousel-track"
-                            class="home-courses-subject-hub-row">
-                        </div>
-
-                        <button id="subject-next" class="carousel-arrow">
-                            ▶
-                        </button>
-
-                    </div>
+                <div class="hero-info-text">
+                    <p>
+                        Ph.ENONICS, (Ph.n, pronounced "fin"), transforms learning into exploration through interactive tools, educational games,
+                        and guided journeys to help learners master the language of phenomena.
+                    </p>
                 </div>
             </div>
+
+        </div>
+
+
+        <div class="home-quote">
+
+            "Physics asks "how?" Philosophy, "why?""
+
+        </div>
+
+        <div class="home-hero">
+            <div class="home-hero-container">
+
+                <div class="section-title hero-section-title">
+                    Explore Subjects!
+                </div>
+
+                <div class="phenonics-divider home-subjects-divider"></div>
+
+                <div class="subject-carousel">
+
+                    <button id="subject-prev" class="carousel-arrow">
+                        ◀
+                    </button>
+
+                    <div
+                        id="subject-carousel-track"
+                        class="home-courses-subject-hub-row">
+                    </div>
+
+                    <button id="subject-next" class="carousel-arrow">
+                        ▶
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
     `;
 
     arena.appendChild(container);
@@ -340,7 +337,7 @@ function setMode(mode) {
 
         document.getElementById("active-subject-container").innerHTML = "";
     }
-    
+   
 
     if (mode !== "table") {
         Object.keys(overlays).forEach(k => overlays[k] = false);
@@ -750,15 +747,6 @@ function renderChemistryMenu() {
     };
 
     // TOOLS
-    document.getElementById("pt-card").onclick = () => {
-        setMode("table");
-    };
-
-    document.getElementById("lewis-card").onclick = () => {
-        setMode("lewis");
-    };
-
-    // GAMES
     document.getElementById("tools-node").onclick = () => {
         setMode("tools_menu");
     };
@@ -767,7 +755,6 @@ function renderChemistryMenu() {
     document.getElementById("games-node").onclick = () => {
         setMode("games_menu");
     };
-
 }
 
 function renderToolsMenu() {
@@ -784,7 +771,7 @@ function renderToolsMenu() {
         <div class="subject-hub">
 
             <div class="section-title subject-header">
-            ${currentSubject} Tools
+               ${currentSubject} Tools
             </div>
 
             <div class="phenonics-divider subject-divider"></div>
@@ -888,9 +875,6 @@ function renderGamesMenu() {
     };
 
 }
-
-
-
 
 function renderChemistrySidebar() {
     const sidebar = document.getElementById("sidebar");
@@ -1006,7 +990,7 @@ function renderChemJourney() {
             </div>
         </div>
 
-    
+ 
     `;
 
     arena.appendChild(container);
@@ -1461,6 +1445,70 @@ function createElementSlot(el, targetSet = null) {
                 div.style.transform = "scale(1)";
             };
 
+            div.ondragover = (e) => e.preventDefault();
+
+            div.ondrop = (e) => {
+
+                const draggedNumber = Number(e.dataTransfer.getData("number"));
+                
+                if (draggedNumber === el.number) {
+                   
+                    if (
+                        currentGameType === "patch" ||
+                        currentGameType === "blank"
+                    ) {
+
+                        div.innerHTML = `
+                            <div class="symbol">${el.symbol}</div>
+                        `;
+                    } else {
+
+                        div.innerHTML = `
+                            <div class="number">${el.number}</div>
+                            <div class="symbol">${el.symbol}</div>
+                            <div class="mass">${el.mass}</div>
+                        `;
+                    }
+
+                    div.classList.remove("target-slot");
+                    div.classList.add("placed-correct");
+
+                    placedElements[el.number] = true;
+                    updatePlacedCounter();
+                    currentStreak++;
+
+                    if (currentStreak === 5) {
+                        showFitStreakPopup(
+                            "Nice!",
+                            "5 in a row!"
+                        );
+                    }
+
+                    if (currentStreak === 10) {
+                        showFitStreakPopup(
+                            "Excellent!",
+                            "10 streak!"
+                        );
+                    }
+
+                    if (currentStreak === 20) {
+                        showFitStreakPopup(
+                            "Wow!",
+                            "You are UNSTOPPABLE!"
+                        );
+                    }
+
+
+                    const draggedElement = document.querySelector(
+                        `.element-bank .element[data-number="${el.number}"]`
+                    );
+
+                    if (draggedElement) {
+                        draggedElement.remove();
+                    }
+                }
+            };
+
             div.onclick = () => {
 
                 if (div.classList.contains("typing")) return;
@@ -1526,6 +1574,7 @@ function createElementSlot(el, targetSet = null) {
                         gameFinished = true;
                         setTimeout(() => {
                             showFitCompletionPopup();
+                            showRestartButton();
 
                             setTimeout(() => {
                                 currentLevel++;
@@ -1545,6 +1594,7 @@ function createElementSlot(el, targetSet = null) {
                 
                 } else {
                     currentStreak = 0;
+
                     loseLife();
 
                     div.classList.add("wrong-drop");
@@ -1552,6 +1602,7 @@ function createElementSlot(el, targetSet = null) {
                         div.classList.remove("wrong-drop");
                     }, 300);
 
+                    loseLife();
                     
                 }
             };
@@ -1625,27 +1676,8 @@ function createElementSlot(el, targetSet = null) {
             div.style.boxShadow = `0 0 20px ${groupColor}`;
             div.style.opacity = "1";
         } else {
-
             div.style.opacity = "0.15";
             div.style.boxShadow = "none";
-
-        if (
-            !(currentMode === "table_timed" && timedBonuses?.[el.number]) 
-        ) {
-        
-            const groupColor = GROUP_COLORS[el.group] || originalColor;
-            const showAll = activeGroups.size === 0;
-            const isActive = activeGroups.has(el.group);
-
-            if (showAll || isActive) {
-                div.style.borderColor = groupColor;
-                div.style.boxShadow = `0 0 20px ${groupColor}`;
-                div.style.opacity = "1";
-            } else {
-
-                div.style.opacity = "0.15";
-                div.style.boxShadow = "none";
-            }
         }
     }
 
@@ -1670,9 +1702,8 @@ function createElementSlot(el, targetSet = null) {
             div.style.color = "#000";
         }
     }
-    
+   
     return div;
-}
 }
 
 function getEnergyColor(value) {
@@ -1690,16 +1721,15 @@ function getEnergyColor(value) {
 
     const hue = 120 - (120 * normalized);
 
-        return `hsl(${hue}, 75%, ${55 + (normalized * 5)}%)`;
-    
-    }
+    return `hsl(${hue}, 75%, ${55 + (normalized * 5)}%)`;
+}
 
 
 function renderTableCell(el, targetSet = null) {
 
-    if (!targetSet || currentMode === "table") {
+   if (!targetSet || currentMode === "table") {
         return createElementSlot(el);
-    }
+   }
 
     const isTarget = targetSet.has(el.number);
 
@@ -1885,7 +1915,7 @@ function showHoloPopup(e, el) {
                             style="text-shadow: 0 0 3px rgba(0,0,0,0.5);"
                         >
                             Group: ${el.group.replace(/_/g, " ")}
-                        </div>
+                         </div>
                     `
                 }
 
@@ -2155,132 +2185,8 @@ function setupLewisSearch() {
 
                 suggestions.appendChild(div);
             });
-
-
-                        div.onclick = () => showLewis(k);
-                        suggestions.appendChild(div);
-                });
+    });
 }
-
-
-// function showCrystalModal(el) {
-//     currentElement = el;
-//     const modal = document.getElementById('modal');
-//     document.getElementById('modal-title').innerHTML = `${el.number} — <span class="text-cyan-300">${el.symbol}</span> <span class="text-2xl">${el.name}</span>`;
-    
-//     document.getElementById('modal-notes').innerHTML = `
-//         <div><strong class="text-cyan-300">Atomic Structure:</strong><br>
-//             Nucleus + Electron Orbitals</div>
-//             <div><strong class="text-cyan-300">Properties:</strong><br>${el.notes}</div>
-//     `;
-
-//     modal.classList.remove('hidden');
-
-//     setTimeout(() => {
-//         const container = document.getElementById('three-canvas');
-//         container.innerHTML = '';
-
-//         const width = container.clientWidth || 820;
-//         const height = 460;
-
-//         scene = new THREE.Scene();
-//         camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 200);
-//         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-//         renderer.setSize(width, height);
-//         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-//         container.appendChild(renderer.domElement);
-
-//         scene.add(new THREE.AmbientLight(0x67e8f9, 1.2));
-
-//         const light = new THREE.PointLight(0x00f5ff, 3, 200);
-//         light.position.set(20, 20, 20);
-//         scene.add(light);
-
-//         const atom = new THREE.Group();
-
-//         // NUCLEUS
-//         const nucleusGeo = new THREE.SphereGeometry(2.2, 32, 32);
-//         const nucleusMat = new THREE.MeshPhongMaterial({
-//             color: 0x00f5ff,
-//             emissive: 0x67e8f9,
-//             shininess: 100
-//         });
-
-//         const nucleus = new THREE.Mesh(nucleusGeo, nucleusMat);
-//         atom.add(nucleus);
-
-//         // ELECTRON ORBITS
-//         const electronCount = Math.min(el.number, 20);
-//         const orbitRadii = [4, 6, 8];
-
-//         let electronsPlaced = 0;
-
-//         orbitRadii.forEach((radius, orbitIndex) => {
-//             const orbit = new THREE.RingGeometry(radius, radius + 0.05, 64);
-//             const orbitMat = new THREE.MeshBasicMaterial({
-//                 color: 0x67e8f9,
-//                 side: THREE.DoubleSide,
-//                 transparent: true,
-//                 opacity: 0.4
-//             });
-
-//             const ring = new THREE.Mesh(orbit, orbitMat);
-//             ring.rotation.x = Math.PI / 2;
-//             atom.add(ring);
-
-//             const electronsInOrbit = Math.min(electronCount - electronsPlaced, 8);
-
-//             for (let i = 0; i < electronsInOrbit; i++) {
-//                 const angle = (i / electronsInOrbit) * Math.PI * 2;
-
-//                 const electronGeo = new THREE.SphereGeometry(0.35,16, 16);
-//                 const electronMat = new THREE.MeshBasicMaterial({ color: 0xffffff});
-
-//                 const electron = new THREE.Mesh(electronGeo, electronMat);
-//                 electron.userData = { angle, radius, speed: 0.01 + Math.random() * 0.01 };
-
-//                 electron.position.x = Math.cos(angle) * radius;
-//                 electron.position.z = Math.sin(angle) * radius;
-
-//                 atom.add(electron);
-//             }
-
-//             electronsPlaced += electronsInOrbit;
-//         });
-//         scene.add(atom);
-//         camera.position.set(0, 6, 18);
-//         camera.lookAt(0, 0, 0);
-
-//         function animate () {
-//         animationFrameId = requestAnimationFrame(animate);
-
-//         atom.rotation.y += 0.002;
-
-//         atom.children.forEach(obj => {
-//             if (obj.userData?.angle !== undefined) {
-//                 obj.userData.angle += obj.userData.speed;
-//                 obj.position.x = Math.cos(obj.userData.angle) * obj.userData.radius;
-//                 obj.position.z = Math.sin(obj.userData.angle) * obj.userData.radius;
-//             }
-//         });
-
-//         renderer.render(scene, camera);
-//     }
-
-//     console.log("Scene created:", scene);
-//     console.log("Atom children:", atom.children.length);
-
-//     animate();
-// }, 80);
-// }
-
-// function closeModal() {
-//     const modal = document.getElementById('modal');
-//     modal.classList.add('hidden');
-//     if (animationFrameId) cancelAnimationFrame(animationFrameId);
-//     if (renderer) renderer.dispose();
-//     currentElement = null;
-// }
 
 // ------------------------------------------------------------------------
 window.onload =  function () {
