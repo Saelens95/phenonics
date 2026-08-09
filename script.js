@@ -1,4 +1,4 @@
-// let currentSubject = null;
+let currentSubject = null;
 let selectedElementNumber = null;
 let isEditing = false;
 let currentMode = "home";
@@ -43,12 +43,12 @@ let carouselIndex = 0;
 
 
 const subjects = [
-    {icon: "🎨", label: "Art", mode: "art"},
-    {icon: "🧪", label: "Chemistry", mode: "chemistry"},
-    {icon: "🧠", label: "Philosophy", mode: "philosophy"},
-    {icon: "🧲", label: "Physics", mode: "physics"},
-    {icon: "➗", label: "Math", mode: "math"},
-    {icon: "⚙️", label: "Engineering", mode: "engineering"}
+    // {icon: "🎨", label: "Art", mode: "art"},
+    {icon: "🧪", label:"" , mode: "chemistry"}
+    // {icon: "🧠", label: "Philosophy", mode: "philosophy"},
+    // {icon: "🧲", label: "Physics", mode: "physics"},
+    // {icon: "➗", label: "Math", mode: "math"},
+    // {icon: "⚙️", label: "Engineering", mode: "engineering"}
 ]
 
 
@@ -88,23 +88,27 @@ function renderPhenonicsHome() {
     container.className = 'home-container';
 
     container.innerHTML = `
+
+        <div class="top-colored-container">
         
-        <div class="phenonics-header">
+            <div class="phenonics-header">
 
-            <div class="phenonics-logo">
-                 <img src="assets/phen_logo.PNG">
-            </div>
-            
-            <div class="phenonics-title">
-                Ph.ENONICS
-            </div>
-            
-            <div class="phenonics-subtitle ">
-                Learn the language of phenomena.
-            </div>
+                <div class="phenonics-logo">
+                    <img src="assets/phen_logo.PNG">
+                </div>
+                
+                <div class="phenonics-title">
+                    Ph.ENONICS
+                </div>
 
-            <div class="phenonics-divider"></div>
-            
+                <div class="phenonics-divider top-title-divider"></div>
+
+                
+                <div class="phenonics-subtitle ">
+                    Learn the language of phenomena.
+                </div>
+                
+            </div>
         </div>
 
 
@@ -129,7 +133,7 @@ function renderPhenonicsHome() {
                                     ⚛️
                                 </div>
 
-                                <div class="home-subject-label">
+                                <div class="home-tool-label">
                                     The Periodic Table
                                 </div>
                             </div>
@@ -149,7 +153,7 @@ function renderPhenonicsHome() {
                                     🎮
                                 </div>
 
-                                <div class="home-subject-label">
+                                <div class="home-game-label">
                                     Elemental Fit
                                 </div>
                             </div>
@@ -170,8 +174,7 @@ function renderPhenonicsHome() {
 
                 <div class="hero-info-text">
                     <p>
-                        Ph.ENONICS, (Ph.n, pronounced "fin"), transforms learning into exploration through interactive tools, educational games,
-                        and guided journeys to help learners master the language of phenomena.
+                        Ph.ENONICS, (Ph.n, pronounced "fin"), is an INTERACTIVE PLAYGROUND for exploring the ARTS and SCIENCES, and the strange connections between them!
                     </p>
                 </div>
             </div>
@@ -181,36 +184,50 @@ function renderPhenonicsHome() {
 
         <div class="home-quote">
 
-            "Physics asks "how?" Philosophy, "why?""
+        "Imagination is more important than knowledge. For knowledge is limited,
+        whereas imagination embraces the entire world." - A. Einstein"   
 
+        </div>
+
+        <div class="start-exploring-container">
+
+            <div class="start-course-text">
+                START
+            </div>
+
+            <div class="explore-course-text">
+                EXPLORING!
+            </div>
         </div>
 
         <div class="home-hero">
             <div class="home-hero-container">
 
                 <div class="section-title hero-section-title">
-                    Explore Subjects!
+                    Curious Chemistry!
                 </div>
 
                 <div class="phenonics-divider home-subjects-divider"></div>
 
                 <div class="subject-carousel">
 
-                    <button id="subject-prev" class="carousel-arrow">
-                        ◀
-                    </button>
-
                     <div
                         id="subject-carousel-track"
                         class="home-courses-subject-hub-row">
                     </div>
 
-                    <button id="subject-next" class="carousel-arrow">
-                        ▶
-                    </button>
-
                 </div>
             </div>
+        </div>
+
+        <div class="coming-soon-container">
+
+            <div class="coming-soon-label">
+                Hang tight! There's more to come!
+            </div>
+
+            <div class="phenonics-divider hang-tight-divider"></div>
+
         </div>
     </div>
     `;
@@ -225,30 +242,30 @@ function renderPhenonicsHome() {
 
     renderSubjectCarousel();
 
-    document.getElementById("subject-prev")
-        .onclick = () => {
+    // document.getElementById("subject-prev")
+    //     .onclick = () => {
 
-            carouselIndex--;
+    //         carouselIndex--;
 
-            if (carouselIndex < 0) {
-                carouselIndex =
-                    subjects.length - 1;
-            }
+    //         if (carouselIndex < 0) {
+    //             carouselIndex =
+    //                 subjects.length - 1;
+    //         }
 
-            renderSubjectCarousel();
-        };
+    //         renderSubjectCarousel();
+    //     };
     
-    document.getElementById("subject-next")
-        .onclick = () => {
+    // document.getElementById("subject-next")
+    //     .onclick = () => {
 
-            carouselIndex++;
+    //         carouselIndex++;
 
-            if (carouselIndex >= subjects.length) {
-                carouselIndex = 0;
-            }
+    //         if (carouselIndex >= subjects.length) {
+    //             carouselIndex = 0;
+    //         }
 
-            renderSubjectCarousel();
-        };
+    //         renderSubjectCarousel();
+    //     };
 }
 
 function renderSubjectCarousel() {
@@ -264,7 +281,7 @@ function renderSubjectCarousel() {
 
     const visibleSubjects = [];
 
-    for (let i =0; i < 3; i++) {
+    for (let i =0; i < 1; i++) {
         
         visibleSubjects.push(
             subjects[
@@ -416,7 +433,17 @@ function setMode(mode) {
 
             openSidebarIfCollapsed();
 
+            activeSubject = "Chemistry";
+            currentSubject = "Chemistry";
+
+            document.body.classList.add("chemistry-active");
+            document.body.classList.add("subject-active");
+
+            updateSidebarSubject("Chemistry");
+            renderChemistrySidebar();
+
             renderDefaultLayout();
+            renderTableTools();
             openSidebarGroupForMode("table");
 
             document
@@ -454,14 +481,6 @@ function setMode(mode) {
             document.body.classList.remove("game-mode");
             renderMatchMaker();
             openSidebarGroupForMode("matchmaker");
-            return;
-
-        case "lewis":
-            document.body.classList.remove("game-mode");
-            document.getElementById('game-arena').innerHTML = '';
-            document.getElementById('game-controls').innerHTML = '';
-            renderLewisMode();
-            openSidebarGroupForMode("lewis");
             return;
 
         default:
