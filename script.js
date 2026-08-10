@@ -864,21 +864,7 @@ function renderGamesMenu() {
                     </div>
                 </div>
             
-                <div class="subject-panel">
-
-                    <div class="subject-node" id="matchmaker-card">
-                        <div class="subject-circle">🃏</div>
-                        <div class="subject-label game-label">
-                            MatchMaker
-                        </div>
-
-                        <div class="phenonics-divider category-divider"></div>
-
-                        <div class="subject-description">
-                            Match chemistry concepts. Strengthen recall.
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     `;
@@ -1285,66 +1271,6 @@ function showWrongPopup(tier) {
     }, 650);
 }
 
-function renderMatchMaker() {
-    const arena = document.getElementById("game-arena");
-    arena.innerHTML = "";
-
-    const container = document.createElement("div");
-
-    container.className = "home-container";
-
-    container.innerHTML = `
-        
-        <div class="chemistry-sections">
-        
-            <div class="chem-section games">
-                
-                <div class="section-title matchmaker-title">
-                    MatchMaker
-                </div>
-                
-                <div class="phenonics-subtitle matchmaker-subtitle">
-                    Train your chemsitry recall.
-                </div>
-
-                <div class="phenonics-divider"></div>
-                
-                <div class="home-card-container">
-                
-                    <div class="home-card" id="match-elements">
-                    
-                        <div class="home-icon">⚛️</div>
-                        <div class="home-label">
-                            Elements
-                        </div>
-                        
-                    </div>
-                    
-                    <div class="home-card" id="math-molecules">
-                    
-                        <div class="home-icon">🧪</div>
-                        <div class="home-label">
-                            Molecules
-                        </div>
-                        
-                    </div>
-                    
-                    <div class="home-card" id="math-equations">
-                    
-                        <div class="home-icon">⚗️</div>
-                        <div class="home-label">
-                            Equations
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-
-    arena.appendChild(container);
-
-}
 
 
 function renderDefaultLayout() {
